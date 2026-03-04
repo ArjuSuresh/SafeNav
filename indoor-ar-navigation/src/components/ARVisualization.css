@@ -1,0 +1,66 @@
+.ar-visualization {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ar-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  /* No mirror — back camera shows real world direction correctly */
+}
+
+.ar-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: block;
+  background: transparent;
+}
+
+.ar-info {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #00ff00;
+  padding: 10px 15px;
+  border: 1px solid #00ff00;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.compass-label {
+  color: #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.ar-status {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #00ff00;
+  padding: 12px 20px;
+  border: 2px solid #00ff00;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}

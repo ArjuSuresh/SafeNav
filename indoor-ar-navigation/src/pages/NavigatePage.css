@@ -1,0 +1,206 @@
+/* NavigatePage now uses global.css classes; previous styles removed */
+
+.nav-main {
+  flex: 1;
+  background: #000;
+  overflow: hidden;
+}
+
+.nav-sidebar {
+  width: 100%;
+  max-width: 300px;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  border-left: 2px solid #00ff00;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-shadow: -5px 0 20px rgba(0, 255, 0, 0.1);
+}
+
+.nav-top {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid #00ff0033;
+}
+
+.back-btn,
+.map-btn {
+  flex: 1;
+  padding: 8px 12px;
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.back-btn:hover,
+.map-btn:hover {
+  background: rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.nav-info {
+  padding: 16px 12px;
+  border-bottom: 1px solid #00ff0033;
+}
+
+.location-box {
+  background: rgba(0, 255, 0, 0.05);
+  border: 1px solid #00ff00;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.location-box.current {
+  border-color: #00ff00;
+}
+
+.location-box.destination {
+  border-color: #ffaa00;
+  background: rgba(255, 170, 0, 0.05);
+}
+
+.location-box .label {
+  font-size: 11px;
+  color: #00ff00;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.location-box .value {
+  font-size: 13px;
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.dest-selector {
+  padding: 12px;
+  border-bottom: 1px solid #00ff0033;
+  position: relative;
+}
+
+.select-btn {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(0, 255, 0, 0.1);
+  border: 1px solid #00ff00;
+  color: #00ff00;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.select-btn:hover {
+  background: rgba(0, 255, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.dest-list {
+  position: absolute;
+  top: 100%;
+  left: 12px;
+  right: 12px;
+  margin-top: 4px;
+  background: #0a0e27;
+  border: 1px solid #00ff00;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 5px 20px rgba(0, 255, 0, 0.2);
+}
+
+.dest-item {
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  color: #00ff00;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.1s;
+  border-bottom: 1px solid #00ff0033;
+}
+
+.dest-item:last-child {
+  border-bottom: none;
+}
+
+.dest-item:hover {
+  background: rgba(0, 255, 0, 0.15);
+  padding-left: 16px;
+}
+
+.route-display {
+  padding: 16px 12px;
+  border-bottom: 1px solid #00ff0033;
+  flex: 1;
+}
+
+.route-display h3 {
+  color: #00ff00;
+  font-size: 13px;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.route-display h4 {
+  color: #00ff00;
+  font-size: 11px;
+  margin: 8px 0 4px 0;
+  opacity: 0.8;
+}
+
+.distance {
+  color: #00ff00;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  padding: 8px;
+  background: rgba(0, 255, 0, 0.05);
+  border-left: 2px solid #00ff00;
+}
+
+.route-display ol {
+  margin: 0;
+  padding-left: 20px;
+  color: #00ff00;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.route-display li {
+  margin-bottom: 4px;
+}
+
+.emergency-btn {
+  margin: 12px;
+  padding: 12px;
+  background: rgba(255, 0, 0, 0.15);
+  border: 2px solid #ff0000;
+  color: #ff0000;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.emergency-btn:hover {
+  background: rgba(255, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}

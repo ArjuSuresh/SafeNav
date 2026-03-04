@@ -1,0 +1,16 @@
+/* ScanPage styling */
+.scan-container {
+  padding-top: 100px; /* ensure below fixed navbar */
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+}

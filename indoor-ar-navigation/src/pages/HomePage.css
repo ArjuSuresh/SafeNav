@@ -1,0 +1,5 @@
+/* most layout is handled by global.css; additional custom styles can go here if needed */
+.home-page {
+  padding-top: 80px; /* account for fixed navbar */
+}
+

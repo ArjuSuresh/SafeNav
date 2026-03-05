@@ -7,17 +7,18 @@
 /* ── Purple gradient text for feature headings ──────────────────────── */
 .purple-gradient-text {
   background: linear-gradient(135deg,
-      #572E54 0%,
-      #8E7692 25%,
-      #CEB2BD 50%,
-      #8E7692 75%,
-      #572E54 100%);
+      #2A1128 0%,
+      #482A41 20%,
+      #E2D2C8 50%,
+      #482A41 80%,
+      #2A1128 100%);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: purpleGradientFlow 4s ease infinite;
   font-weight: 700;
+  font-size: 1.15rem;
 }
 
 /* ── Purple shimmer for badges and buttons ───────────────────────────── */
@@ -42,6 +43,23 @@
   animation: shimmerSlide 3s ease-in-out infinite;
   pointer-events: none;
   border-radius: inherit;
+}
+
+/* ── Start Navigation button hover ──────────────────────────────────── */
+.btn-start-nav {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(87, 46, 84, 0.3);
+}
+
+.btn-start-nav:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: #6B3A67 !important;
+  box-shadow: 0 8px 30px rgba(87, 46, 84, 0.5), 0 0 20px rgba(142, 118, 146, 0.3);
+}
+
+.btn-start-nav:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 15px rgba(87, 46, 84, 0.4);
 }
 
 /* ── Keyframes ──────────────────────────────────────────────────────── */

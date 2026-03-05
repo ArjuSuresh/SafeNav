@@ -44,7 +44,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
             </p>
 
             <div className="hero-actions" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <button className="btn purple-shimmer" onClick={onScan} style={{ padding: '0.875rem 1.75rem', fontSize: '1rem', display: 'flex', gap: '8px', alignItems: 'center', background: '#572E54', color: '#E2D2C8', border: 'none', borderRadius: '12px', fontWeight: '600', cursor: 'pointer' }}>
+              <button className="btn purple-shimmer btn-start-nav" onClick={onScan} style={{ padding: '0.875rem 1.75rem', fontSize: '1rem', display: 'flex', gap: '8px', alignItems: 'center', background: '#572E54', color: '#E2D2C8', border: 'none', borderRadius: '12px', fontWeight: '600', cursor: 'pointer' }}>
                 Start Navigation
                 <ArrowRight size={18} />
               </button>

@@ -44,6 +44,15 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
   const [destVal, setDestVal] = useState(destination ? standardizeName(destination.name) : '');
   const [routePath, setRoutePath] = useState('');
 
+  // Sync with props when navigating from AR mode to 2D map
+  useEffect(() => {
+    if (currentLocation) setStartVal(standardizeName(currentLocation.name));
+  }, [currentLocation]);
+
+  useEffect(() => {
+    if (destination) setDestVal(standardizeName(destination.name));
+  }, [destination]);
+
   useEffect(() => {
     if (!startVal || !destVal || !locations[startVal] || !locations[destVal]) {
       return;

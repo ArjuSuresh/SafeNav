@@ -1,5 +1,5 @@
 body {
-  background-color: #050505 !important;
+  background-color: #394931 !important;
   display: flex;
   justify-content: center;
 }
@@ -12,8 +12,8 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #0B0F19;
-  /* Standard app background */
+  background-color: #394931;
+  /* Kombu Green app background */
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   border-left: 1px solid rgba(255, 255, 255, 0.05);
   border-right: 1px solid rgba(255, 255, 255, 0.05);

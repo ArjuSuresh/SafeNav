@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --bg-main: #0B0F19;
-    /* dark, rich navy/black base */
+    --bg-main: #051f20;
+    /* dark, rich teal base */
     --bg-surface: #121A2F;
     --bg-surface-hover: #1E293B;
     --primary: #3B82F6;

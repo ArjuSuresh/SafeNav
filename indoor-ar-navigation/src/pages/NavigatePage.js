@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ARVisualization from '../components/ARVisualization';
 import { getRouteAsync, getEvacuationRouteAsync, getRoute, getEvacuationRoute } from '../logic/pathfinding';
 import { getLocationNames, getLocationNamesAsync, getLocationById } from '../data/indoorMap';
@@ -110,6 +110,14 @@ function NavigatePage({
       }
     }
   };
+
+  // Auto-advance callback from step detector (accelerometer)
+  const handleWaypointAdvance = useCallback(() => {
+    setWaypointIndex(v => {
+      const maxIdx = (route?.path?.length || 1) - 1;
+      return Math.min(v + 1, maxIdx);
+    });
+  }, [route]);
 
   const handleSelectDestination = async (loc) => {
     setDestination(loc);
@@ -323,6 +331,7 @@ function NavigatePage({
         destination={arrowTarget}
         route={route}
         onLocationFound={handleLocationFound}
+        onWaypointAdvance={handleWaypointAdvance}
         isEmergency={isEmergency}
         active={true}
         scanningOnly={false}
@@ -480,7 +489,7 @@ function NavigatePage({
                 fontSize: '0.8rem', fontWeight: '600', whiteSpace: 'nowrap',
               }}
             >
-              ✓ Reached
+              ✓ Skip
             </button>
           )}
 

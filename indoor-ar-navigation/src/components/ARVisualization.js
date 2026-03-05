@@ -6,33 +6,27 @@ import {
   startARLoop,
   destroyARThreeScene,
 } from './ARThreeScene';
+import StepDetector from '../logic/stepDetector';
 import './ARVisualization.css';
 
 /**
- * ARVisualization
+ * ARVisualization — Google-Maps-style AR overlay component.
  *
- * AR overlay component. In 'ar' mode (default) it now uses a Three.js WebGL
- * renderer (alpha:true) overlaid on the live camera feed — inspired by:
- *   FireDragonGameStudio/ARIndoorNavigation-Threejs
- *
- * Key concepts adopted from the reference repo:
- *  - THREE.WebGLRenderer with alpha:true overlaid on camera video
- *  - THREE.Line (BufferGeometry + setFromPoints) for the navigation path
- *  - Pool of waypoint sphere markers (show/hide as needed)
- *  - Scene group rotated by compass heading (analog to marker-anchored scene)
- *
- * Retained from the existing implementation:
- *  - getUserMedia camera stream
- *  - DeviceOrientation compass heading
- *  - Tesseract.js OCR localization scanning
- *  - 2D canvas map (viewMode='2d')
- *  - Scanning frame overlay in scanningOnly mode
+ * Features:
+ *  - Live camera feed as background
+ *  - Three.js floor-plane arrow + path trail (ARThreeScene.js)
+ *  - Smooth compass heading (low-pass filter applied in ARThreeScene)
+ *  - Accelerometer step detection → auto-advance waypoints
+ *  - Smart heading estimation from sign detection
+ *  - Tesseract.js OCR for room sign scanning
+ *  - 2D canvas map fallback (viewMode='2d')
  */
 function ARVisualization({
   currentLocation,
   destination,
   route,
   onLocationFound,
+  onWaypointAdvance,   // NEW: callback when step detection auto-advances
   isEmergency,
   active = false,
   scanningOnly = false,
@@ -40,16 +34,18 @@ function ARVisualization({
 }) {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);     // 2D canvas (used only for 2D map + compass HUD)
-  const animRef = useRef(null);       // 2D canvas rAF
-  const threeInitRef = useRef(false); // guard for Three.js init
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
+  const threeInitRef = useRef(false);
+  const stepDetectorRef = useRef(null);
 
   const [cameraActive, setCameraActive] = useState(false);
-  const [cameraError, setCameraError] = useState(''); // empty = no error, string = error message
+  const [cameraError, setCameraError] = useState('');
   const [heading, setHeading] = useState(0);
   const [detectedText, setDetectedText] = useState('');
+  const [stepInfo, setStepInfo] = useState({ steps: 0, distance: 0 });
 
-  // Stable refs so Three.js loop can read current values without re-init
+  // Stable refs for Three.js loop callbacks
   const headingRef = useRef(0);
   const routeRef = useRef(null);
   const destinationRef = useRef(null);
@@ -60,7 +56,70 @@ function ARVisualization({
   useEffect(() => { destinationRef.current = destination; }, [destination]);
   useEffect(() => { isEmergencyRef.current = isEmergency; }, [isEmergency]);
 
-  // ─── Camera startup (progressive fallback for mobile) ────────────────────────
+  // Track distance walked since last waypoint advance
+  const distanceSinceAdvanceRef = useRef(0);
+  const lastStepDistRef = useRef(0);
+
+  // ─── Step Detection — auto-advance waypoints ──────────────────────────────
+  useEffect(() => {
+    if (!active || !route?.waypoints || route.waypoints.length < 2) return;
+
+    const detector = new StepDetector();
+    stepDetectorRef.current = detector;
+    distanceSinceAdvanceRef.current = 0;
+    lastStepDistRef.current = 0;
+
+    detector.start(({ totalDistance }) => {
+      const stepDelta = totalDistance - lastStepDistRef.current;
+      lastStepDistRef.current = totalDistance;
+      distanceSinceAdvanceRef.current += stepDelta;
+
+      setStepInfo({ steps: detector.stepCount, distance: totalDistance });
+
+      // Calculate distance to next waypoint from current position
+      if (route?.waypoints?.length >= 2) {
+        const wp0 = route.waypoints[0];
+        const wp1 = route.waypoints[1];
+        const waypointDist = Math.sqrt(
+          (wp1.x - wp0.x) ** 2 + (wp1.y - wp0.y) ** 2
+        );
+
+        // Auto-advance when walked ~80% of the distance to the next waypoint
+        // (Using 80% because step detection isn't perfectly accurate)
+        if (distanceSinceAdvanceRef.current >= waypointDist * 0.8) {
+          distanceSinceAdvanceRef.current = 0;
+          if (onWaypointAdvance) {
+            onWaypointAdvance();
+          }
+        }
+      }
+    });
+
+    return () => {
+      detector.stop();
+      stepDetectorRef.current = null;
+    };
+  }, [active, route, onWaypointAdvance]);
+
+  // ─── Smart heading from sign detection ─────────────────────────────────────
+  // When OCR detects a sign, we know the user is FACING the wall with the sign.
+  // Using the sign's position on the floor plan, we estimate which cardinal
+  // direction the user is facing (perpendicular to the wall).
+  const estimateHeadingFromSign = useCallback((location) => {
+    if (!location) return null;
+    // Signs are typically on walls. Based on the floor plan layout,
+    // rooms on the west side have signs facing east (toward corridor),
+    // rooms on the east side face west, etc.
+    // This gives us a rough heading when compass data is unreliable.
+    const { x, y } = location;
+    if (x < 20) return 90;    // West wing rooms — user faces east
+    if (x > 40) return 270;   // East wing rooms — user faces west
+    if (y < 15) return 180;   // North rooms — user faces south (toward corridor)
+    if (y > 35) return 0;     // South rooms — user faces north
+    return null;
+  }, []);
+
+  // ─── Camera startup ───────────────────────────────────────────────────────
   useEffect(() => {
     if (!active) return;
 
@@ -68,10 +127,6 @@ function ARVisualization({
     const videoEl = videoRef.current;
 
     const startCamera = async () => {
-      // Progressive fallback strategy:
-      //  1. Back camera (ideal) with HD resolution
-      //  2. Back camera (exact) with no resolution constraints
-      //  3. Any camera (no constraints at all)
       const attempts = [
         { video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } } },
         { video: { facingMode: 'environment' } },
@@ -82,31 +137,27 @@ function ARVisualization({
       for (const constraints of attempts) {
         try {
           stream = await navigator.mediaDevices.getUserMedia(constraints);
-          break; // success — stop trying
+          break;
         } catch (err) {
           lastErr = err;
-          console.warn('Camera attempt failed:', err.name, err.message, 'tried:', JSON.stringify(constraints));
+          console.warn('Camera attempt failed:', err.name, err.message);
           stream = null;
         }
       }
 
       if (stream && videoEl) {
         videoEl.srcObject = stream;
-        // Ensure playback starts (some mobile browsers need explicit play())
         try { await videoEl.play(); } catch (e) { console.warn('video.play() failed:', e.message); }
         setCameraActive(true);
         setCameraError('');
       } else {
-        const msg = lastErr
-          ? `${lastErr.name}: ${lastErr.message}`
-          : 'Camera unavailable';
+        const msg = lastErr ? `${lastErr.name}: ${lastErr.message}` : 'Camera unavailable';
         console.error('All camera attempts failed:', msg);
         setCameraActive(false);
         setCameraError(msg);
       }
     };
 
-    // Check if getUserMedia is available at all
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setCameraError('getUserMedia not supported — use HTTPS and Chrome/Firefox');
       return;
@@ -136,6 +187,7 @@ function ARVisualization({
     };
     window.addEventListener('deviceorientation', handleOrientation, true);
 
+    // Slow rotation fallback for desktop testing
     fallback = setInterval(() => {
       setHeading(h => {
         const next = (h + 0.5) % 360;
@@ -150,10 +202,9 @@ function ARVisualization({
     };
   }, [active]);
 
-  // ─── Three.js AR scene (active + ar mode + not scanningOnly) ──────────────
+  // ─── Three.js AR scene ────────────────────────────────────────────────────
   useEffect(() => {
     if (!active || viewMode !== 'ar' || scanningOnly) {
-      // Tear down if previously running
       if (threeInitRef.current) {
         destroyARThreeScene();
         threeInitRef.current = false;
@@ -164,11 +215,9 @@ function ARVisualization({
     const container = containerRef.current;
     if (!container) return;
 
-    // Init Three.js scene (pattern from reference repo IndoorNav constructor)
     initARThreeScene(container);
     threeInitRef.current = true;
 
-    // Start render loop (pattern: indoorNav.start() / loop.start())
     startARLoop(
       () => headingRef.current,
       () => routeRef.current,
@@ -182,7 +231,7 @@ function ARVisualization({
     };
   }, [active, viewMode, scanningOnly]);
 
-  // ─── OCR scanning loop ─────────────────────────────────────────────────────
+  // ─── OCR scanning loop ────────────────────────────────────────────────────
   useEffect(() => {
     if (!active || !cameraActive || currentLocation) return;
 
@@ -261,7 +310,16 @@ function ARVisualization({
           if (loc.id === 'ai_hod' && (rawTextClean.includes('aihod') || (rawTextClean.includes('ai') && rawTextClean.includes('hod')))) score += 50;
           if (score > highestScore) { highestScore = score; bestMatch = loc; }
         }
-        if (bestMatch && highestScore >= 5 && onLocationFound) onLocationFound(bestMatch);
+
+        if (bestMatch && highestScore >= 5 && onLocationFound) {
+          // Estimate initial heading from which wall the sign is on
+          const estimatedHeading = estimateHeadingFromSign(bestMatch);
+          if (estimatedHeading !== null) {
+            setHeading(estimatedHeading);
+            headingRef.current = estimatedHeading;
+          }
+          onLocationFound(bestMatch);
+        }
 
       } catch (e) {
         console.error(e);
@@ -271,9 +329,9 @@ function ARVisualization({
     }, 700);
 
     return () => clearInterval(scanInterval);
-  }, [active, cameraActive, currentLocation, onLocationFound]);
+  }, [active, cameraActive, currentLocation, onLocationFound, estimateHeadingFromSign]);
 
-  // ─── 2D canvas draw loop (map + compass HUD only) ─────────────────────────
+  // ─── 2D canvas draw loop ──────────────────────────────────────────────────
   const drawLoop = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -288,10 +346,8 @@ function ARVisualization({
     ctx.clearRect(0, 0, W, H);
 
     if (viewMode === '2d') {
-      // Full 2D map view
       draw2DMap(ctx, W, H, currentLocation, destination, route, isEmergency);
     } else if (!scanningOnly && currentLocation && !destination) {
-      // "You are here" hint (no destination selected yet)
       ctx.fillStyle = 'rgba(0,0,0,0.65)';
       roundRect(ctx, W / 2 - 150, H / 2 - 40, 300, 80, 12);
       ctx.fill();
@@ -304,7 +360,7 @@ function ARVisualization({
       ctx.fillText('Select a destination to navigate', W / 2, H / 2 + 18);
     }
 
-    // Compass HUD — shown in AR mode (Three.js handles the arrow; canvas handles compass)
+    // Compass HUD
     if (viewMode === 'ar' && !scanningOnly) {
       drawCompassHUD(ctx, W, H, heading, cameraActive);
     }
@@ -317,7 +373,7 @@ function ARVisualization({
     return () => cancelAnimationFrame(animRef.current);
   }, [drawLoop]);
 
-  // ─── Render ────────────────────────────────────────────────────────────────
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="ar-visualization" ref={containerRef}>
       {/* Live camera feed */}
@@ -341,11 +397,10 @@ function ARVisualization({
         }} />
       )}
 
-      {/* 2D canvas — used for 2D map mode and compass HUD overlay only */}
-      {/* In AR mode the Three.js canvas (inserted by ARThreeScene) handles the 3D rendering */}
+      {/* 2D canvas overlay */}
       <canvas ref={canvasRef} className="ar-canvas" />
 
-      {/* Camera error message — shows the actual error for debugging */}
+      {/* Camera error message */}
       {cameraError && !cameraActive && (
         <div style={{
           position: 'absolute', top: '50%', left: '50%',
@@ -409,16 +464,16 @@ function ARVisualization({
         </div>
       )}
 
-      {/* AR mode info badge (shown when Three.js AR is active) */}
+      {/* AR mode badge + step counter */}
       {viewMode === 'ar' && !scanningOnly && currentLocation && destination && (
         <div style={{
           position: 'absolute', top: '16px', left: '50%',
           transform: 'translateX(-50%)',
-          background: 'rgba(0,0,0,0.75)',
-          border: '1px solid rgba(56,189,248,0.4)',
+          background: 'rgba(0,0,0,0.8)',
+          border: `1px solid ${isEmergency ? 'rgba(239,68,68,0.5)' : 'rgba(56,189,248,0.4)'}`,
           borderRadius: '20px',
           padding: '6px 16px',
-          color: '#38bdf8',
+          color: isEmergency ? '#fca5a5' : '#38bdf8',
           fontSize: '12px',
           fontWeight: '600',
           letterSpacing: '0.05em',
@@ -427,15 +482,25 @@ function ARVisualization({
           backdropFilter: 'blur(8px)',
           display: 'flex',
           alignItems: 'center',
-          gap: '6px',
+          gap: '8px',
         }}>
           <span style={{
             width: 8, height: 8, borderRadius: '50%',
-            background: '#38bdf8',
-            boxShadow: '0 0 8px #38bdf8',
+            background: isEmergency ? '#ef4444' : '#38bdf8',
+            boxShadow: `0 0 8px ${isEmergency ? '#ef4444' : '#38bdf8'}`,
             display: 'inline-block',
+            animation: 'pulse 1.5s infinite',
           }} />
-          3D AR Navigation Active
+          AR Navigation
+          {stepInfo.steps > 0 && (
+            <span style={{
+              color: '#94a3b8', fontSize: '10px', fontWeight: '400',
+              borderLeft: '1px solid rgba(255,255,255,0.2)',
+              paddingLeft: '8px',
+            }}>
+              🚶 {stepInfo.steps} steps • {stepInfo.distance.toFixed(1)}m
+            </span>
+          )}
         </div>
       )}
     </div>
@@ -443,7 +508,7 @@ function ARVisualization({
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Helper: 2D top-down minimap (unchanged from original)
+// Helper: 2D top-down minimap
 // ──────────────────────────────────────────────────────────────────────────────
 function draw2DMap(ctx, W, H, currentLocation, destination, route, isEmergency) {
   const graph = getGraph();
@@ -558,7 +623,7 @@ function draw2DMap(ctx, W, H, currentLocation, destination, route, isEmergency) 
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Helper: compass HUD (canvas, bottom-right)
+// Helper: compass HUD
 // ──────────────────────────────────────────────────────────────────────────────
 function drawCompassHUD(ctx, W, H, heading, cameraActive) {
   const cx = W - 55;

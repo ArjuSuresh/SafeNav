@@ -129,6 +129,7 @@ function App() {
       )}
       {page === 'map' && (
         <MapPage
+          key={`map-${currentLocation?.name || 'none'}-${destination?.name || 'none'}`}
           onBack={goToNavigate}
           onNavigate={() => goToNavigation()}
           hasLocation={!!currentLocation}

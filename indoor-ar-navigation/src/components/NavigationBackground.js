@@ -168,8 +168,8 @@ function NavigationBackground() {
 
                 // Draw dashed path line
                 ctx.setLineDash([6, 8]);
-                ctx.strokeStyle = 'rgba(87, 46, 84, 0.12)';
-                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = 'rgba(72, 42, 65, 0.30)';
+                ctx.lineWidth = 2;
                 ctx.beginPath();
                 for (let i = 0; i < pts.length; i++) {
                     const px = pts[i].x * W;

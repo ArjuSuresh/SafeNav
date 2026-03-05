@@ -10,7 +10,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
   };
 
   return (
-    <div className="home-page" style={{ position: 'relative', overflow: 'hidden' }}>
+    <div className="home-page" style={{ position: 'relative', overflowX: 'hidden' }}>
       <NavigationBackground />
       <section className="hero" style={{ position: 'relative', zIndex: 1 }}>
         <div className="container hero-content-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', textAlign: 'center', marginTop: '2rem' }}>

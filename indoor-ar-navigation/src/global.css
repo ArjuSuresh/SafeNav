@@ -290,7 +290,7 @@ button {
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--primary);
+    color: #CEB2BD;
     transform: translateY(-2px);
 }
 

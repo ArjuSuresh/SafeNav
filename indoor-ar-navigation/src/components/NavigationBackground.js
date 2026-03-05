@@ -1,0 +1,270 @@
+import React, { useRef, useEffect } from 'react';
+
+/**
+ * NavigationBackground — Subtle animated canvas background for the homepage.
+ *
+ * Renders faint navigation paths with location markers and a glowing arrow
+ * that travels between them, matching the purple (#8E7692) color palette.
+ * Low opacity so it doesn't interfere with foreground content.
+ */
+function NavigationBackground() {
+    const canvasRef = useRef(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        let animId;
+        let t = 0;
+
+        // Resize canvas to fill parent
+        const resize = () => {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        };
+        resize();
+        window.addEventListener('resize', resize);
+
+        // ── Define multiple navigation routes ────────────────────────────
+        // Each route has waypoints (x%, y%) relative to canvas size
+        const routes = [
+            {
+                label: ['Library', 'Lecture Hall'],
+                points: [
+                    { x: 0.08, y: 0.15 },
+                    { x: 0.22, y: 0.18 },
+                    { x: 0.35, y: 0.12 },
+                    { x: 0.48, y: 0.20 },
+                ],
+                speed: 0.003,
+                offset: 0,
+            },
+            {
+                label: ['Lab A', 'Exit'],
+                points: [
+                    { x: 0.55, y: 0.75 },
+                    { x: 0.65, y: 0.65 },
+                    { x: 0.78, y: 0.70 },
+                    { x: 0.92, y: 0.60 },
+                ],
+                speed: 0.0025,
+                offset: 0.33,
+            },
+            {
+                label: ['Office', 'Cafeteria'],
+                points: [
+                    { x: 0.70, y: 0.20 },
+                    { x: 0.80, y: 0.30 },
+                    { x: 0.85, y: 0.42 },
+                    { x: 0.92, y: 0.35 },
+                ],
+                speed: 0.0035,
+                offset: 0.66,
+            },
+            {
+                label: ['Entrance', 'Room 201'],
+                points: [
+                    { x: 0.05, y: 0.60 },
+                    { x: 0.15, y: 0.50 },
+                    { x: 0.25, y: 0.55 },
+                    { x: 0.38, y: 0.48 },
+                ],
+                speed: 0.002,
+                offset: 0.5,
+            },
+            {
+                label: ['Block C', 'Seminar Hall'],
+                points: [
+                    { x: 0.30, y: 0.82 },
+                    { x: 0.42, y: 0.78 },
+                    { x: 0.50, y: 0.85 },
+                    { x: 0.60, y: 0.90 },
+                ],
+                speed: 0.0028,
+                offset: 0.15,
+            },
+        ];
+
+        // ── Helper: get point along a route at progress [0..1] ──────────
+        function getPointOnRoute(route, progress, W, H) {
+            const pts = route.points;
+            const segCount = pts.length - 1;
+            const rawIdx = progress * segCount;
+            const idx = Math.min(Math.floor(rawIdx), segCount - 1);
+            const frac = rawIdx - idx;
+
+            const a = pts[idx];
+            const b = pts[idx + 1];
+            return {
+                x: (a.x + (b.x - a.x) * frac) * W,
+                y: (a.y + (b.y - a.y) * frac) * H,
+            };
+        }
+
+        // ── Helper: draw a location marker ──────────────────────────────
+        function drawMarker(ctx, x, y, radius, isStart, pulse) {
+            // Outer glow
+            ctx.beginPath();
+            ctx.arc(x, y, radius + 3 + pulse * 2, 0, Math.PI * 2);
+            ctx.fillStyle = isStart
+                ? 'rgba(72, 42, 65, 0.08)'
+                : 'rgba(206, 178, 189, 0.08)';
+            ctx.fill();
+
+            // Main circle
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = isStart
+                ? 'rgba(72, 42, 65, 0.25)'
+                : 'rgba(206, 178, 189, 0.20)';
+            ctx.fill();
+
+            // Inner dot
+            ctx.beginPath();
+            ctx.arc(x, y, radius * 0.4, 0, Math.PI * 2);
+            ctx.fillStyle = isStart
+                ? 'rgba(87, 46, 84, 0.4)'
+                : 'rgba(226, 210, 200, 0.35)';
+            ctx.fill();
+        }
+
+        // ── Helper: draw navigation arrow ───────────────────────────────
+        function drawArrow(ctx, x, y, angle, size) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+
+            // Arrow body (chevron)
+            ctx.beginPath();
+            ctx.moveTo(size, 0);
+            ctx.lineTo(-size * 0.6, -size * 0.5);
+            ctx.lineTo(-size * 0.3, 0);
+            ctx.lineTo(-size * 0.6, size * 0.5);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(226, 210, 200, 0.3)';
+            ctx.fill();
+
+            // Glow
+            ctx.beginPath();
+            ctx.arc(0, 0, size * 0.8, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(206, 178, 189, 0.06)';
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // ── Main draw loop ──────────────────────────────────────────────
+        function draw() {
+            animId = requestAnimationFrame(draw);
+            t += 0.016;
+
+            const W = canvas.width;
+            const H = canvas.height;
+            ctx.clearRect(0, 0, W, H);
+
+            for (const route of routes) {
+                const pts = route.points;
+
+                // Draw dashed path line
+                ctx.setLineDash([6, 8]);
+                ctx.strokeStyle = 'rgba(87, 46, 84, 0.12)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                for (let i = 0; i < pts.length; i++) {
+                    const px = pts[i].x * W;
+                    const py = pts[i].y * H;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw waypoint dots (small)
+                for (let i = 1; i < pts.length - 1; i++) {
+                    const px = pts[i].x * W;
+                    const py = pts[i].y * H;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(87, 46, 84, 0.15)';
+                    ctx.fill();
+                }
+
+                // Draw start and end markers
+                const pulse = Math.sin(t * 1.5 + route.offset * 10) * 0.5 + 0.5;
+                const startX = pts[0].x * W;
+                const startY = pts[0].y * H;
+                const endX = pts[pts.length - 1].x * W;
+                const endY = pts[pts.length - 1].y * H;
+
+                drawMarker(ctx, startX, startY, 8, true, pulse);
+                drawMarker(ctx, endX, endY, 8, false, pulse);
+
+                // Draw labels (very faint)
+                ctx.font = '10px Outfit, sans-serif';
+                ctx.fillStyle = 'rgba(87, 46, 84, 0.18)';
+                ctx.textAlign = 'center';
+                ctx.fillText(route.label[0], startX, startY - 14);
+                ctx.fillText(route.label[1], endX, endY - 14);
+
+                // Animate arrow along path
+                const progress = ((t * route.speed * 60 + route.offset) % 1);
+                const arrowPos = getPointOnRoute(route, progress, W, H);
+
+                // Calculate angle from direction of travel
+                const nextProgress = Math.min(progress + 0.02, 0.99);
+                const nextPos = getPointOnRoute(route, nextProgress, W, H);
+                const angle = Math.atan2(nextPos.y - arrowPos.y, nextPos.x - arrowPos.x);
+
+                drawArrow(ctx, arrowPos.x, arrowPos.y, angle, 10);
+
+                // Trail behind arrow (fading dots)
+                for (let i = 1; i <= 5; i++) {
+                    const trailProgress = Math.max(0, progress - i * 0.03);
+                    const trailPos = getPointOnRoute(route, trailProgress, W, H);
+                    const alpha = 0.12 - i * 0.02;
+                    ctx.beginPath();
+                    ctx.arc(trailPos.x, trailPos.y, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(206, 178, 189, ${Math.max(0, alpha)})`;
+                    ctx.fill();
+                }
+            }
+
+            // ── Floating grid dots (subtle texture) ─────────────────────────
+            const spacing = 60;
+            for (let gx = spacing; gx < W; gx += spacing) {
+                for (let gy = spacing; gy < H; gy += spacing) {
+                    const drift = Math.sin(t * 0.5 + gx * 0.01 + gy * 0.01) * 1;
+                    ctx.beginPath();
+                    ctx.arc(gx + drift, gy + drift, 1, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(87, 46, 84, 0.06)';
+                    ctx.fill();
+                }
+            }
+        }
+
+        draw();
+
+        return () => {
+            cancelAnimationFrame(animId);
+            window.removeEventListener('resize', resize);
+        };
+    }, []);
+
+    return (
+        <canvas
+            ref={canvasRef}
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none',
+                zIndex: 0,
+            }}
+        />
+    );
+}
+
+export default NavigationBackground;

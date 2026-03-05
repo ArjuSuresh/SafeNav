@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import NavigationBackground from '../components/NavigationBackground';
 import './HomePage.css';
 
 function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
@@ -9,8 +10,9 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
   };
 
   return (
-    <div className="home-page">
-      <section className="hero">
+    <div className="home-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <NavigationBackground />
+      <section className="hero" style={{ position: 'relative', zIndex: 1 }}>
         <div className="container hero-content-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', textAlign: 'center', marginTop: '2rem' }}>
           <div className="hero-content" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
@@ -56,7 +58,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
         </div>
       </section>
 
-      <section id="features" className="container grid-3">
+      <section id="features" className="container grid-3" style={{ position: 'relative', zIndex: 1 }}>
         {/* ... features remain hidden/styled below fold for now ... */}
         <div className="card animate-enter stagger-1">
           <h3 className="purple-gradient-text">AI Route Optimization</h3>
@@ -71,7 +73,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
           <p>Instant hazard detection triggers automated evacuation.</p>
         </div>
       </section>
-      <footer className="container" style={{ padding: '6rem 0 3rem 0', marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#482A41', borderRadius: '24px 24px 0 0', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '2rem', paddingRight: '2rem' }}>
+      <footer className="container" style={{ position: 'relative', zIndex: 1, padding: '6rem 0 3rem 0', marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#482A41', borderRadius: '24px 24px 0 0', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '2rem', paddingRight: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
 
           <div style={{ maxWidth: '400px' }}>

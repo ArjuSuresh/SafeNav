@@ -45,6 +45,12 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
       'Girls Toilet': 'Girls Toilet',
       'Boys Toilet (Center)': 'Boys Toilet (Center)',
       'Boys Toilet (North)': 'Boys Toilet (North)',
+      // Backend names (slightly different from local fallback)
+      'AI HOD Office': 'AI HOD',
+      'Mech HOD Office': 'Mech HOD',
+      'Left Stairs (South Entrance)': 'Left Stairs',
+      'Right Stairs (South Entrance)': 'Right Stairs',
+      'Stairs (East)': 'Stairs (East)',
     };
     if (nameMap[name]) return nameMap[name];
     // Fallback: check if name exists directly in locations

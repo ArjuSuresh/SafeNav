@@ -71,7 +71,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
           <p>Instant hazard detection triggers automated evacuation.</p>
         </div>
       </section>
-      <footer className="container" style={{ padding: '6rem 0 3rem 0', marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <footer className="container" style={{ padding: '6rem 0 3rem 0', marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#90997F', borderRadius: '24px 24px 0 0', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '2rem', paddingRight: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
 
           <div style={{ maxWidth: '400px' }}>

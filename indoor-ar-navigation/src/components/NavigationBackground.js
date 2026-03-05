@@ -104,31 +104,68 @@ function NavigationBackground() {
             };
         }
 
-        // ── Helper: draw a location marker ──────────────────────────────
-        function drawMarker(ctx, x, y, radius, isStart, pulse) {
-            // Outer glow
+        // ── Helper: draw a map pin marker (teardrop shape) ─────────────
+        function drawMarker(ctx, x, y, size, isStart, pulse) {
+            const s = size + pulse * 2;
+            const pinColor = isStart
+                ? 'rgba(72, 42, 65, 0.35)'
+                : 'rgba(206, 178, 189, 0.30)';
+            const innerColor = isStart
+                ? 'rgba(87, 46, 84, 0.5)'
+                : 'rgba(226, 210, 200, 0.45)';
+            const dotColor = isStart
+                ? 'rgba(142, 118, 146, 0.6)'
+                : 'rgba(226, 210, 200, 0.6)';
+
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Shadow/glow under pin
             ctx.beginPath();
-            ctx.arc(x, y, radius + 3 + pulse * 2, 0, Math.PI * 2);
-            ctx.fillStyle = isStart
-                ? 'rgba(72, 42, 65, 0.08)'
-                : 'rgba(206, 178, 189, 0.08)';
+            ctx.ellipse(0, s * 0.3, s * 0.4, s * 0.15, 0, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(42, 17, 40, 0.12)';
             ctx.fill();
 
-            // Main circle
+            // Pin body (teardrop: circle on top + pointed bottom)
             ctx.beginPath();
-            ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = isStart
-                ? 'rgba(72, 42, 65, 0.25)'
-                : 'rgba(206, 178, 189, 0.20)';
+            // Start at the bottom point
+            ctx.moveTo(0, s * 0.2);
+            // Left curve up to the circle
+            ctx.bezierCurveTo(
+                -s * 0.7, -s * 0.3,
+                -s * 0.7, -s * 1.2,
+                0, -s * 1.2
+            );
+            // Right curve back down to the point
+            ctx.bezierCurveTo(
+                s * 0.7, -s * 1.2,
+                s * 0.7, -s * 0.3,
+                0, s * 0.2
+            );
+            ctx.closePath();
+            ctx.fillStyle = pinColor;
             ctx.fill();
 
-            // Inner dot
+            // Outline
+            ctx.strokeStyle = isStart
+                ? 'rgba(42, 17, 40, 0.25)'
+                : 'rgba(142, 118, 146, 0.20)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+
+            // Inner circle (hole in the pin)
             ctx.beginPath();
-            ctx.arc(x, y, radius * 0.4, 0, Math.PI * 2);
-            ctx.fillStyle = isStart
-                ? 'rgba(87, 46, 84, 0.4)'
-                : 'rgba(226, 210, 200, 0.35)';
+            ctx.arc(0, -s * 0.55, s * 0.28, 0, Math.PI * 2);
+            ctx.fillStyle = innerColor;
             ctx.fill();
+
+            // Center dot
+            ctx.beginPath();
+            ctx.arc(0, -s * 0.55, s * 0.12, 0, Math.PI * 2);
+            ctx.fillStyle = dotColor;
+            ctx.fill();
+
+            ctx.restore();
         }
 
         // ── Helper: draw navigation arrow ───────────────────────────────

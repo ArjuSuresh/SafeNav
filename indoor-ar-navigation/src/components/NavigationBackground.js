@@ -18,12 +18,14 @@ function NavigationBackground() {
         let animId;
         let t = 0;
 
-        // Resize canvas to fill parent
+        // Resize canvas to fill full scrollable area
         const resize = () => {
             canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
+            canvas.height = canvas.parentElement.scrollHeight;
         };
         resize();
+        // Re-check size periodically since scrollHeight can change after render
+        const resizeInterval = setInterval(resize, 1000);
         window.addEventListener('resize', resize);
 
         // ── Define multiple navigation routes ────────────────────────────
@@ -247,6 +249,7 @@ function NavigationBackground() {
 
         return () => {
             cancelAnimationFrame(animId);
+            clearInterval(resizeInterval);
             window.removeEventListener('resize', resize);
         };
     }, []);

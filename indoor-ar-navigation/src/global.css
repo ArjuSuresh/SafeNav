@@ -3,8 +3,8 @@
 :root {
     --bg-main: #394931;
     /* Kombu Green base */
-    --bg-surface: #121A2F;
-    --bg-surface-hover: #1E293B;
+    --bg-surface: #2F3B28;
+    --bg-surface-hover: #3D4A34;
     --primary: #3B82F6;
     /* bright blue */
     --primary-glow: rgba(59, 130, 246, 0.4);
@@ -20,10 +20,10 @@
     --coffee-latte: #C7B7A3;
     --coffee-cream: #E8D8C4;
 
-    --text-main: #E8D8C4;
-    /* using cream for main text instead of stark white */
-    --text-muted: #C7B7A3;
-    /* using latte for muted text */
+    --text-main: #D4D0B9;
+    /* Pastel Gray for main text */
+    --text-muted: #B8B4A0;
+    /* slightly darker pastel gray for muted text */
     --border: rgba(255, 255, 255, 0.08);
 
     --font-heading: 'Space Grotesk', sans-serif;
@@ -198,7 +198,7 @@ button {
 }
 
 .glass-panel {
-    background: rgba(11, 15, 25, 0.8);
+    background: rgba(47, 59, 40, 0.85);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
 }
@@ -533,7 +533,7 @@ button {
     /* ---- NAVBAR ---- */
     .navbar {
         padding: 0.6rem 0;
-        background: rgba(11, 15, 25, 0.95);
+        background: rgba(47, 59, 40, 0.95);
         backdrop-filter: blur(10px);
     }
 

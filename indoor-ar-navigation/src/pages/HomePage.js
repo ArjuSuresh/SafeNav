@@ -32,7 +32,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
             </div>
 
             <h1 className="hero-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', fontSize: '3.5rem', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#E8D8C4' }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#D4D0B9' }}>
                 <path d="m22 2-7 20-4-9-9-4Z" />
                 <path d="M22 2 11 13" />
               </svg>
@@ -75,14 +75,14 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
 
           <div style={{ maxWidth: '400px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#E8D8C4' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#D4D0B9' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m22 2-7 20-4-9-9-4Z" />
                 <path d="M22 2 11 13" />
               </svg>
               <span>SafeNav</span>
             </div>
-            <p style={{ color: '#E8D8C4', fontSize: '1rem', lineHeight: '1.7', margin: 0 }}>
+            <p style={{ color: '#D4D0B9', fontSize: '1rem', lineHeight: '1.7', margin: 0 }}>
               Next-generation indoor navigation<br />
               ensuring safety through real-time crowd<br />
               analytics and hazard detection.
@@ -90,14 +90,14 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
           </div>
 
           <div style={{ minWidth: '200px' }}>
-            <h4 style={{ color: '#E8D8C4', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold' }}>Project</h4>
-            <p style={{ color: '#E8D8C4', fontSize: '0.95rem', marginBottom: '0.75rem', margin: '0 0 0.5rem 0' }}>Dept of AI (2023-2027)</p>
-            <p style={{ color: '#E8D8C4', fontSize: '0.95rem', margin: 0 }}>Spring 2026</p>
+            <h4 style={{ color: '#D4D0B9', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold' }}>Project</h4>
+            <p style={{ color: '#D4D0B9', fontSize: '0.95rem', marginBottom: '0.75rem', margin: '0 0 0.5rem 0' }}>Dept of AI (2023-2027)</p>
+            <p style={{ color: '#D4D0B9', fontSize: '0.95rem', margin: 0 }}>Spring 2026</p>
           </div>
 
         </div>
 
-        <div style={{ textAlign: 'center', color: '#C7B7A3', fontSize: '0.85rem' }}>
+        <div style={{ textAlign: 'center', color: '#D4D0B9', fontSize: '0.85rem' }}>
           © 2026 Smart Indoor Safety Navigation System. Academic Prototype.
         </div>
       </footer>

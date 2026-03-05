@@ -20,10 +20,10 @@
     --coffee-latte: #C7B7A3;
     --coffee-cream: #E8D8C4;
 
-    --text-main: #D4D0B9;
-    /* Pastel Gray for main text */
-    --text-muted: #B8B4A0;
-    /* slightly darker pastel gray for muted text */
+    --text-main: #E2D2C8;
+    /* Main text color */
+    --text-muted: #E2D2C8;
+    /* Muted text color */
     --border: rgba(255, 255, 255, 0.08);
 
     --font-heading: 'Space Grotesk', sans-serif;

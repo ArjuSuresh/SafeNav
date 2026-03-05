@@ -1,5 +1,74 @@
 /* most layout is handled by global.css; additional custom styles can go here if needed */
 .home-page {
-  padding-top: 80px; /* account for fixed navbar */
+  padding-top: 80px;
+  /* account for fixed navbar */
 }
 
+/* ── Purple gradient text for feature headings ──────────────────────── */
+.purple-gradient-text {
+  background: linear-gradient(135deg,
+      #572E54 0%,
+      #8E7692 25%,
+      #CEB2BD 50%,
+      #8E7692 75%,
+      #572E54 100%);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: purpleGradientFlow 4s ease infinite;
+  font-weight: 700;
+}
+
+/* ── Purple shimmer for badges and buttons ───────────────────────────── */
+.purple-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.purple-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(206, 178, 189, 0.15) 40%,
+      rgba(206, 178, 189, 0.25) 50%,
+      rgba(206, 178, 189, 0.15) 60%,
+      transparent 100%);
+  animation: shimmerSlide 3s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Keyframes ──────────────────────────────────────────────────────── */
+@keyframes purpleGradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmerSlide {
+  0% {
+    left: -100%;
+  }
+
+  50% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}

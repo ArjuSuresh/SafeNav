@@ -14,18 +14,18 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
         <div className="container hero-content-wrapper" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', textAlign: 'center', marginTop: '2rem' }}>
           <div className="hero-content" style={{ maxWidth: '800px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-            <div className="hero-badge" style={{
+            <div className="hero-badge purple-shimmer" style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              background: 'rgba(59, 130, 246, 0.1)',
+              background: 'rgba(87, 46, 84, 0.2)',
               padding: '6px 16px',
               borderRadius: '99px',
-              color: '#3B82F6',
+              color: '#CEB2BD',
               fontSize: '0.875rem',
               fontWeight: '500',
               marginBottom: '1.5rem',
-              border: '1px solid rgba(59, 130, 246, 0.2)'
+              border: '1px solid rgba(87, 46, 84, 0.4)'
             }}>
               <Sparkles size={16} />
               <span>Next Gen Indoor Safety</span>
@@ -44,7 +44,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
             </p>
 
             <div className="hero-actions" style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <button className="btn btn-primary" onClick={onScan} style={{ padding: '0.875rem 1.75rem', fontSize: '1rem', display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <button className="btn purple-shimmer" onClick={onScan} style={{ padding: '0.875rem 1.75rem', fontSize: '1rem', display: 'flex', gap: '8px', alignItems: 'center', background: '#572E54', color: '#E2D2C8', border: 'none', borderRadius: '12px', fontWeight: '600', cursor: 'pointer' }}>
                 Start Navigation
                 <ArrowRight size={18} />
               </button>
@@ -59,15 +59,15 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
       <section id="features" className="container grid-3">
         {/* ... features remain hidden/styled below fold for now ... */}
         <div className="card animate-enter stagger-1">
-          <h3 className="text-gradient">AI Route Optimization</h3>
+          <h3 className="purple-gradient-text">AI Route Optimization</h3>
           <p>Advanced A* algorithms calculate the fastest path.</p>
         </div>
         <div className="card animate-enter stagger-2">
-          <h3 className="text-gradient">Crowd-Aware</h3>
+          <h3 className="purple-gradient-text">Crowd-Aware</h3>
           <p>Real-time density monitoring via BLE beacons.</p>
         </div>
         <div className="card animate-enter stagger-3">
-          <h3 className="text-gradient">Emergency Protocol</h3>
+          <h3 className="purple-gradient-text">Emergency Protocol</h3>
           <p>Instant hazard detection triggers automated evacuation.</p>
         </div>
       </section>

@@ -38,28 +38,20 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
     return name;
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const [startVal, setStartVal] = useState(currentLocation ? standardizeName(currentLocation.name) : '');
-  // eslint-disable-next-line no-unused-vars
-  const [destVal, setDestVal] = useState(destination ? standardizeName(destination.name) : '');
   const [routePath, setRoutePath] = useState('');
 
-  // Sync with props when navigating from AR mode to 2D map
+  // Recalculate route path whenever currentLocation or destination changes
   useEffect(() => {
-    if (currentLocation) setStartVal(standardizeName(currentLocation.name));
-  }, [currentLocation]);
+    const startName = currentLocation ? standardizeName(currentLocation.name) : '';
+    const destName = destination ? standardizeName(destination.name) : '';
 
-  useEffect(() => {
-    if (destination) setDestVal(standardizeName(destination.name));
-  }, [destination]);
-
-  useEffect(() => {
-    if (!startVal || !destVal || !locations[startVal] || !locations[destVal]) {
+    if (!startName || !destName || !locations[startName] || !locations[destName]) {
+      setRoutePath('');
       return;
     }
 
-    const start = locations[startVal];
-    const dest = locations[destVal];
+    const start = locations[startName];
+    const dest = locations[destName];
 
     let d = `M ${start.x} ${start.y}`;
     d += ` L ${start.entry.x} ${start.entry.y}`;
@@ -77,7 +69,7 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
 
     d += ` L ${dest.x} ${dest.y}`;
     setRoutePath(d);
-  }, [startVal, destVal]);
+  }, [currentLocation, destination]);
 
   return (
     <div className="container animate-enter" style={{ paddingTop: '100px', paddingBottom: '40px' }}>

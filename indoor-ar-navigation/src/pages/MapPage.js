@@ -26,15 +26,34 @@ const locations = {
 function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination }) {
   const standardizeName = (name) => {
     if (!name) return '';
-    if (name === 'Lecture Hall A') return 'Lecture Hall (A)';
-    if (name === 'Lecture Hall B') return 'Lecture Hall (B)';
-    if (name === 'Lecture Hall C') return 'Lecture Hall (C)';
-    if (name === 'Lecture Hall D') return 'Lecture Hall (D)';
-    if (name === 'Faculty Room') return 'Faculty Room (Right)';
-    if (name === 'Stairs (Right Side)') return 'Stairs (East)';
-    if (name === 'Boys Toilet (Center)') return 'Boys Toilet (Center)';
-    if (name === 'Boys Toilet (North)') return 'Boys Toilet (North)';
-    if (name === 'Girls Toilet') return 'Girls Toilet';
+    // Exact mappings from indoorMap names → MapPage location keys
+    const nameMap = {
+      'Lecture Hall A': 'Lecture Hall (A)',
+      'Lecture Hall B': 'Lecture Hall (B)',
+      'Lecture Hall C': 'Lecture Hall (C)',
+      'Lecture Hall D': 'Lecture Hall (D)',
+      'Faculty Room': 'Faculty Room (Right)',
+      'Stairs (Right Side)': 'Stairs (East)',
+      'Thermal Engineering Lab II': 'Thermal Engineering Lab II',
+      'Machine Tools Lab II': 'Machine Tools Lab II',
+      'Mech Faculty Room': 'Mech Faculty Room',
+      'Left Stairs': 'Left Stairs',
+      'Right Stairs': 'Right Stairs',
+      'Mech HOD': 'Mech HOD',
+      'AI HOD': 'AI HOD',
+      'Faculty Center': 'Faculty Center',
+      'Girls Toilet': 'Girls Toilet',
+      'Boys Toilet (Center)': 'Boys Toilet (Center)',
+      'Boys Toilet (North)': 'Boys Toilet (North)',
+    };
+    if (nameMap[name]) return nameMap[name];
+    // Fallback: check if name exists directly in locations
+    if (locations[name]) return name;
+    // Fuzzy fallback: find the closest match
+    const lower = name.toLowerCase();
+    const match = Object.keys(locations).find(k => k.toLowerCase() === lower);
+    if (match) return match;
+    console.warn('[MapPage] No location match for:', name);
     return name;
   };
 
@@ -44,6 +63,8 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
   useEffect(() => {
     const startName = currentLocation ? standardizeName(currentLocation.name) : '';
     const destName = destination ? standardizeName(destination.name) : '';
+
+    console.log('[MapPage] Route calc:', { raw: [currentLocation?.name, destination?.name], mapped: [startName, destName], found: [!!locations[startName], !!locations[destName]] });
 
     if (!startName || !destName || !locations[startName] || !locations[destName]) {
       setRoutePath('');

@@ -6,6 +6,9 @@
 
 /* ── Purple gradient text for feature headings ──────────────────────── */
 .purple-gradient-text {
+  color: #2A1128;
+  font-weight: 700;
+  font-size: 1.15rem;
   background: linear-gradient(135deg,
       #2A1128 0%,
       #482A41 20%,
@@ -13,12 +16,16 @@
       #482A41 80%,
       #2A1128 100%);
   background-size: 300% 300%;
+  background-position: 0% 50%;
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: #2A1128;
+  transition: all 0.3s ease;
+}
+
+.purple-gradient-text:hover {
   -webkit-text-fill-color: transparent;
-  animation: purpleGradientFlow 4s ease infinite;
-  font-weight: 700;
-  font-size: 1.15rem;
+  animation: purpleGradientFlow 2s ease infinite;
 }
 
 /* ── Purple shimmer for badges and buttons ───────────────────────────── */

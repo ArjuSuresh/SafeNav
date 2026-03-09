@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import ARVisualization from '../components/ARVisualization';
 import { getRouteAsync, getEvacuationRouteAsync, getRoute, getEvacuationRoute } from '../logic/pathfinding';
 import { getLocationNames, getLocationNamesAsync, getLocationById } from '../data/indoorMap';
+import { MapPin, Target, ShieldAlert, Map, Home, CheckCircle, X, Check, TriangleAlert, RefreshCw, ScanSearch } from 'lucide-react';
 
 const PHASE = {
   START: 'start',        // Intro screen with "Start Navigation" button
@@ -188,7 +189,7 @@ function NavigatePage({
             background: '#10b981', display: 'inline-block',
             animation: 'pulse-danger 1.5s infinite',
           }} />
-          Scanning room marker...
+          <ScanSearch size={16} /> Scanning room marker...
         </div>
 
         {/* Hint text */}
@@ -210,10 +211,10 @@ function NavigatePage({
             background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(12px)',
             color: '#fff', border: '1px solid rgba(255,255,255,0.25)',
             borderRadius: '24px', padding: '0.75rem 2.5rem',
-            cursor: 'pointer', fontSize: '1rem',
+            cursor: 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px'
           }}
         >
-          ✕ Cancel
+          <X size={18} /> Cancel
         </button>
       </div>
     );
@@ -252,7 +253,7 @@ function NavigatePage({
             background: 'rgba(16,185,129,0.08)', borderRadius: '14px',
             border: '1px solid rgba(16,185,129,0.25)',
           }}>
-            <span style={{ fontSize: '1.4rem' }}>📍</span>
+            <MapPin size={24} color="#10b981" />
             <div style={{ flex: 1 }}>
               <div style={{ color: '#64748b', fontSize: '0.72rem', marginBottom: '2px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>You are here</div>
               <div style={{ color: '#10b981', fontWeight: '700', fontSize: '1rem' }}>{currentLocation.name}</div>
@@ -271,9 +272,9 @@ function NavigatePage({
 
           <label style={{
             color: '#94a3b8', fontSize: '0.85rem',
-            display: 'block', marginBottom: '0.75rem', fontWeight: '500',
+            display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0.75rem', fontWeight: '500',
           }}>
-            🎯 Where do you want to go?
+            <Target size={16} /> Where do you want to go?
           </label>
 
           <select
@@ -298,10 +299,10 @@ function NavigatePage({
 
           <button
             className="btn btn-danger"
-            style={{ width: '100%', fontSize: '0.95rem' }}
+            style={{ width: '100%', fontSize: '0.95rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
             onClick={handleEmergency}
           >
-            🚨 Emergency Exit
+            <ShieldAlert size={18} /> Emergency Exit
           </button>
         </div>
       </div>
@@ -351,10 +352,10 @@ function NavigatePage({
             background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(12px)',
             color: '#fff', border: '1px solid rgba(255,255,255,0.18)',
             borderRadius: '12px', padding: '8px 16px',
-            cursor: 'pointer', fontSize: '0.85rem',
+            cursor: 'pointer', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px',
           }}
         >
-          ← Home
+          <Home size={16} /> Home
         </button>
 
         <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -365,10 +366,10 @@ function NavigatePage({
               background: 'rgba(59,130,246,0.85)', backdropFilter: 'blur(12px)',
               color: '#fff', border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '12px', padding: '8px 14px',
-              cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold',
+              cursor: 'pointer', fontSize: '0.85rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px',
             }}
           >
-            🗺️ 2D Map
+            <Map size={16} /> 2D Map
           </button>
         </div>
       </div>
@@ -379,8 +380,9 @@ function NavigatePage({
           position: 'absolute', top: '4rem', left: '1rem', right: '1rem', zIndex: 30,
           background: '#ef4444', color: 'white', padding: '12px', borderRadius: '12px',
           textAlign: 'center', fontWeight: 'bold', animation: 'pulse-danger 1.5s infinite',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
         }}>
-          ⚠️ EMERGENCY — Follow AR arrow to nearest Exit
+          <TriangleAlert size={20} /> EMERGENCY — Follow AR arrow to nearest Exit
         </div>
       )}
 
@@ -429,7 +431,9 @@ function NavigatePage({
             borderRadius: '14px', padding: '0.875rem 1rem',
             marginBottom: '0.875rem', textAlign: 'center',
           }}>
-            <div style={{ color: '#10b981', fontWeight: '700', fontSize: '1.1rem' }}>✅ You have arrived!</div>
+            <div style={{ color: '#10b981', fontWeight: '700', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+              <CheckCircle size={20} /> You have arrived!
+            </div>
             <div style={{ color: '#64748b', fontSize: '0.8rem', marginTop: '2px' }}>{destination?.name}</div>
           </div>
         )}
@@ -462,8 +466,8 @@ function NavigatePage({
         )}
 
         {/* Final destination label */}
-        <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '0.75rem' }}>
-          🎯 Destination: <span style={{ color: '#fff' }}>{destination?.name || arrowTarget?.name}</span>
+        <div style={{ color: '#64748b', fontSize: '0.75rem', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Target size={14} /> Destination: <span style={{ color: '#fff' }}>{destination?.name || arrowTarget?.name}</span>
         </div>
 
         {/* Action buttons */}
@@ -473,8 +477,8 @@ function NavigatePage({
               Cancel Emergency
             </button>
           ) : (
-            <button className="btn btn-danger" onClick={handleEmergency} style={{ flex: 1, fontSize: '0.85rem' }}>
-              🚨 Emergency
+            <button className="btn btn-danger" onClick={handleEmergency} style={{ flex: 1, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}>
+              <ShieldAlert size={16} /> Emergency
             </button>
           )}
 
@@ -487,9 +491,10 @@ function NavigatePage({
                 border: '1px solid rgba(16,185,129,0.4)', borderRadius: '12px',
                 padding: '0.75rem 0.875rem', cursor: 'pointer',
                 fontSize: '0.8rem', fontWeight: '600', whiteSpace: 'nowrap',
+                display: 'flex', alignItems: 'center', gap: '4px'
               }}
             >
-              ✓ Skip
+              <Check size={16} /> Skip
             </button>
           )}
 
@@ -500,9 +505,10 @@ function NavigatePage({
               border: '1px solid rgba(255,255,255,0.15)', borderRadius: '12px',
               padding: '0.75rem 0.875rem', cursor: 'pointer',
               fontSize: '0.8rem', whiteSpace: 'nowrap',
+              display: 'flex', alignItems: 'center', gap: '4px'
             }}
           >
-            Change
+            <RefreshCw size={14} /> Change
           </button>
         </div>
       </div>

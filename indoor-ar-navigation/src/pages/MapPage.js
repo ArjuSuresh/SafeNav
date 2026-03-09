@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Smartphone, Home, Wifi, ArrowLeft } from 'lucide-react';
 import './MapPage.css';
 
 const locations = {
@@ -101,11 +102,11 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
   return (
     <div className="container animate-enter" style={{ paddingTop: '100px', paddingBottom: '40px' }}>
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-        <button className="btn btn-secondary" onClick={onNavigate} style={{ flexGrow: 1, maxWidth: '200px' }}>
-          {hasLocation ? '← Back to AR' : '📱 AR Mode'}
+        <button className="btn btn-secondary" onClick={onNavigate} style={{ flexGrow: 1, maxWidth: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+          {hasLocation ? <><ArrowLeft size={16} /> Back to AR</> : <><Smartphone size={16} /> AR Mode</>}
         </button>
-        <button className="btn btn-secondary" onClick={onBack} style={{ flexGrow: 1, maxWidth: '200px' }}>
-          🏠 Home
+        <button className="btn btn-secondary" onClick={onBack} style={{ flexGrow: 1, maxWidth: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+          <Home size={16} /> Home
         </button>
       </div>
 
@@ -199,8 +200,8 @@ function MapPage({ onBack, onNavigate, hasLocation, currentLocation, destination
 
         </svg>
 
-        <div className="overlay-badge">
-          <span role="img" aria-label="wifi">📡</span> Live Positioning
+        <div className="overlay-badge" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Wifi size={14} /> Live Positioning
         </div>
       </main>
     </div>

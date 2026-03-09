@@ -4,6 +4,7 @@ import {
     Compass, Map, RefreshCw, ShieldAlert,
     Lightbulb, MonitorSmartphone, Sun, BatteryCharging, Volume2,
 } from 'lucide-react';
+import './GuidePage.css';
 
 const steps = [
     {
@@ -64,40 +65,22 @@ function GuidePage({ onBack }) {
     const [activeStep, setActiveStep] = useState(null);
 
     return (
-        <div style={{
-            minHeight: '100vh',
-            background: 'transparent',
-            paddingBottom: '6rem',
-        }}>
+        <div className="guide-page-container">
             {/* Header */}
-            <div style={{
-                padding: '5rem 1.5rem 2rem',
-                textAlign: 'center',
-                background: 'transparent',
-                borderBottom: 'none',
-            }}>
-                <div style={{
-                    width: 56, height: 56, borderRadius: '16px',
-                    background: 'rgba(87,46,84,0.35)',
-                    border: '1px solid rgba(206,178,189,0.2)',
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    marginBottom: '1rem',
-                }}>
+            <div className="guide-header">
+                <div className="guide-header-icon">
                     <Lightbulb size={28} color="#CEB2BD" />
                 </div>
-                <h1 style={{
-                    color: '#E2D2C8', fontSize: 'clamp(1.5rem,5vw,2rem)',
-                    fontWeight: '700', marginBottom: '0.5rem',
-                }}>
+                <h1 className="guide-title">
                     How to Use SafeNav
                 </h1>
-                <p style={{ color: '#A0908A', fontSize: '0.95rem', maxWidth: '380px', margin: '0 auto' }}>
+                <p className="guide-subtitle">
                     Follow these steps to navigate indoors using augmented reality.
                 </p>
             </div>
 
             {/* Steps */}
-            <div style={{ padding: '1.5rem', maxWidth: '560px', margin: '0 auto' }}>
+            <div className="guide-content">
                 {steps.map((step, i) => {
                     const Icon = step.icon;
                     const isActive = activeStep === i;
@@ -105,59 +88,30 @@ function GuidePage({ onBack }) {
                         <div
                             key={i}
                             onClick={() => setActiveStep(isActive ? null : i)}
-                            style={{
-                                display: 'flex', gap: '1rem', alignItems: 'flex-start',
-                                padding: '1rem 1.25rem',
-                                marginBottom: '0.75rem',
-                                background: isActive ? 'rgba(87,46,84,0.85)' : 'rgba(226,210,200,0.04)',
-                                border: `1px solid ${isActive ? 'rgba(206,178,189,0.35)' : 'rgba(226,210,200,0.07)'}`,
-                                borderRadius: '16px',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s ease',
-                            }}
+                            className={`guide-card ${isActive ? 'guide-card-active' : ''}`}
                         >
                             {/* Step icon + badge */}
-                            <div style={{ flexShrink: 0, textAlign: 'center', minWidth: '48px' }}>
-                                <div style={{
-                                    width: 40, height: 40, borderRadius: '12px',
-                                    background: isActive ? 'rgba(87,46,84,0.5)' : 'rgba(87,46,84,0.25)',
-                                    border: `1px solid ${isActive ? 'rgba(206,178,189,0.3)' : 'rgba(206,178,189,0.12)'}`,
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    marginBottom: '6px', margin: '0 auto 6px',
-                                }}>
-                                    <Icon size={20} color={isActive ? '#E2D2C8' : '#CEB2BD'} strokeWidth={1.8} />
+                            <div className="guide-card-left">
+                                <div className={`guide-icon-wrapper ${isActive ? 'active' : ''}`}>
+                                    <Icon size={20} color={isActive ? '#E2D2C8' : '#CEB2BD'} strokeWidth={1.8} className="guide-icon-svg" />
                                 </div>
-                                <div style={{
-                                    background: 'rgba(87,46,84,0.4)',
-                                    color: '#CEB2BD',
-                                    fontSize: '0.68rem', fontWeight: '700',
-                                    borderRadius: '6px', padding: '2px 8px',
-                                    display: 'inline-block',
-                                    letterSpacing: '0.03em',
-                                }}>
+                                <div className="guide-step-badge">
                                     {i + 1}
                                 </div>
                             </div>
 
                             {/* Content */}
-                            <div style={{ flex: 1 }}>
-                                <div style={{
-                                    color: '#E2D2C8', fontWeight: '600',
-                                    fontSize: '0.95rem', marginBottom: '4px',
-                                }}>
+                            <div className="guide-card-right">
+                                <div className="guide-card-title">
                                     {step.title}
                                 </div>
-                                <div style={{
-                                    color: '#A0908A', fontSize: '0.85rem',
-                                    lineHeight: 1.6,
+                                <div className="guide-card-desc" style={{
                                     maxHeight: isActive ? '200px' : '0px',
-                                    overflow: 'hidden',
-                                    transition: 'max-height 0.3s ease',
                                 }}>
                                     {step.desc}
                                 </div>
                                 {!isActive && (
-                                    <div style={{ color: '#8B6F7B', fontSize: '0.78rem', marginTop: '2px' }}>
+                                    <div className="guide-tap-hint">
                                         Tap to expand ↓
                                     </div>
                                 )}
@@ -167,31 +121,15 @@ function GuidePage({ onBack }) {
                 })}
 
                 {/* Tips section */}
-                <div style={{
-                    marginTop: '2rem',
-                    background: 'rgba(87,46,84,0.18)',
-                    border: '1px solid rgba(206,178,189,0.15)',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
-                }}>
-                    <div style={{
-                        color: '#CEB2BD', fontWeight: '700', fontSize: '0.95rem',
-                        marginBottom: '0.875rem',
-                        display: 'flex', alignItems: 'center', gap: '8px',
-                    }}>
+                <div className="guide-tips-section">
+                    <div className="guide-tips-header">
                         <Lightbulb size={18} strokeWidth={2} />
                         Pro Tips
                     </div>
                     {tips.map((tip, i) => {
                         const TipIcon = tip.icon;
                         return (
-                            <div key={i} style={{
-                                color: '#A0908A', fontSize: '0.85rem',
-                                padding: '0.5rem 0',
-                                borderBottom: i < tips.length - 1 ? '1px solid rgba(226,210,200,0.06)' : 'none',
-                                lineHeight: 1.5,
-                                display: 'flex', alignItems: 'center', gap: '10px',
-                            }}>
+                            <div key={i} className={`guide-tip-item ${i < tips.length - 1 ? 'border-b' : ''}`}>
                                 <TipIcon size={16} color="#8B6F7B" strokeWidth={1.8} style={{ flexShrink: 0 }} />
                                 {tip.text}
                             </div>
@@ -201,8 +139,7 @@ function GuidePage({ onBack }) {
 
                 {/* Back button */}
                 <button
-                    className="btn btn-secondary"
-                    style={{ width: '100%', marginTop: '2rem' }}
+                    className="btn btn-secondary guide-back-btn"
                     onClick={onBack}
                 >
                     ← Back to Home

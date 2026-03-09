@@ -66,15 +66,15 @@ function GuidePage({ onBack }) {
     return (
         <div style={{
             minHeight: '100vh',
-            background: 'linear-gradient(160deg, #2D1F2B 0%, #3A2535 50%, #482A41 100%)',
+            background: 'transparent',
             paddingBottom: '6rem',
         }}>
             {/* Header */}
             <div style={{
                 padding: '5rem 1.5rem 2rem',
                 textAlign: 'center',
-                background: 'linear-gradient(to bottom, rgba(87,46,84,0.15), transparent)',
-                borderBottom: '1px solid rgba(226,210,200,0.08)',
+                background: 'transparent',
+                borderBottom: 'none',
             }}>
                 <div style={{
                     width: 56, height: 56, borderRadius: '16px',
@@ -109,7 +109,7 @@ function GuidePage({ onBack }) {
                                 display: 'flex', gap: '1rem', alignItems: 'flex-start',
                                 padding: '1rem 1.25rem',
                                 marginBottom: '0.75rem',
-                                background: isActive ? 'rgba(87,46,84,0.25)' : 'rgba(226,210,200,0.04)',
+                                background: isActive ? 'rgba(87,46,84,0.85)' : 'rgba(226,210,200,0.04)',
                                 border: `1px solid ${isActive ? 'rgba(206,178,189,0.35)' : 'rgba(226,210,200,0.07)'}`,
                                 borderRadius: '16px',
                                 cursor: 'pointer',

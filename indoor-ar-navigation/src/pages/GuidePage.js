@@ -4,6 +4,7 @@ import {
     Compass, Map, RefreshCw, ShieldAlert,
     Lightbulb, MonitorSmartphone, Sun, BatteryCharging, Volume2,
 } from 'lucide-react';
+import NavigationBackground from '../components/NavigationBackground';
 import './GuidePage.css';
 
 const steps = [
@@ -65,9 +66,11 @@ function GuidePage({ onBack }) {
     const [activeStep, setActiveStep] = useState(null);
 
     return (
-        <div className="guide-page-container">
+        <div className="guide-page-container" style={{ position: 'relative' }}>
+            <NavigationBackground />
+
             {/* Header */}
-            <div className="guide-header">
+            <div className="guide-header" style={{ position: 'relative', zIndex: 1 }}>
                 <div className="guide-header-icon">
                     <Lightbulb size={28} color="#CEB2BD" />
                 </div>
@@ -80,7 +83,7 @@ function GuidePage({ onBack }) {
             </div>
 
             {/* Steps */}
-            <div className="guide-content">
+            <div className="guide-content" style={{ position: 'relative', zIndex: 1 }}>
                 {steps.map((step, i) => {
                     const Icon = step.icon;
                     const isActive = activeStep === i;

@@ -184,7 +184,8 @@
 }
 
 .guide-tip-item {
-    color: #A0908A;
+    color: #F8F5F2;
+    /* Made significantly whiter */
     font-size: 0.85rem;
     padding: 0.5rem 0;
     line-height: 1.5;

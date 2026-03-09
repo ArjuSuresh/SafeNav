@@ -18,10 +18,10 @@ function NavigationBackground() {
         let animId;
         let t = 0;
 
-        // Resize canvas to fill full scrollable area
+        // Resize canvas to fill the viewport exactly
         const resize = () => {
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.scrollHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         };
         resize();
         // Re-check size periodically since scrollHeight can change after render
@@ -295,11 +295,11 @@ function NavigationBackground() {
         <canvas
             ref={canvasRef}
             style={{
-                position: 'absolute',
+                position: 'fixed',
                 top: 0,
                 left: 0,
-                width: '100%',
-                height: '100%',
+                width: '100vw',
+                height: '100vh',
                 pointerEvents: 'none',
                 zIndex: 0,
             }}

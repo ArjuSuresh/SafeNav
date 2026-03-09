@@ -77,38 +77,49 @@ function initializeLocalMap() {
 
   locations.forEach(loc => graph.addNode(loc.id, loc));
 
+  // Topology only — which rooms are connected by walkable corridors.
+  // Distances are computed from node coordinates (Euclidean), matching
+  // the approach used by the backend and the A* heuristic.
   const connections = [
-    ['left_stairs', 'thermal_lab', 30],
-    ['left_stairs', 'machine_tools_lab', 25],
-    ['thermal_lab', 'machine_tools_lab', 35],
-    ['machine_tools_lab', 'mech_faculty', 30],
-    ['mech_faculty', 'mech_hod', 65],
-    ['machine_tools_lab', 'main_hall', 25],
-    ['main_hall', 'faculty_center', 35],
-    ['mech_faculty', 'left_stairs', 20],
-    ['left_stairs', 'right_stairs', 65],
-    ['faculty_center', 'lecture_a', 35],
-    ['lecture_a', 'lecture_b', 40],
-    ['lecture_b', 'faculty_center', 35],
-    ['right_stairs', 'lecture_b', 30],
-    ['left_stairs', 'mech_hod', 50],
-    ['right_stairs', 'ai_hod', 20],
-    ['lecture_b', 'right_hall', 55],
-    ['right_hall', 'lecture_c', 50],
-    ['lecture_c', 'lecture_d', 35],
-    ['lecture_d', 'stairs_right_side', 65],
-    ['stairs_right_side', 'faculty_room', 30],
-    ['mech_hod', 'ai_hod', 65],
-    ['ai_hod', 'right_stairs', 25],
-    ['girls_toilet', 'main_hall', 25],
-    ['girls_toilet', 'left_stairs', 20],
-    ['boys_toilet_center', 'right_stairs', 20],
-    ['boys_toilet_center', 'ai_hod', 30],
-    ['boys_toilet_north', 'right_hall', 30],
-    ['boys_toilet_north', 'lecture_c', 20],
+    ['left_stairs', 'thermal_lab'],
+    ['left_stairs', 'machine_tools_lab'],
+    ['thermal_lab', 'machine_tools_lab'],
+    ['machine_tools_lab', 'mech_faculty'],
+    ['mech_faculty', 'mech_hod'],
+    ['machine_tools_lab', 'main_hall'],
+    ['main_hall', 'faculty_center'],
+    ['mech_faculty', 'left_stairs'],
+    ['left_stairs', 'right_stairs'],
+    ['faculty_center', 'lecture_a'],
+    ['lecture_a', 'lecture_b'],
+    ['lecture_b', 'faculty_center'],
+    ['right_stairs', 'lecture_b'],
+    ['left_stairs', 'mech_hod'],
+    ['right_stairs', 'ai_hod'],
+    ['lecture_b', 'right_hall'],
+    ['right_hall', 'lecture_c'],
+    ['lecture_c', 'lecture_d'],
+    ['lecture_d', 'stairs_right_side'],
+    ['stairs_right_side', 'faculty_room'],
+    ['mech_hod', 'ai_hod'],
+    ['ai_hod', 'right_stairs'],
+    ['girls_toilet', 'main_hall'],
+    ['girls_toilet', 'left_stairs'],
+    ['boys_toilet_center', 'right_stairs'],
+    ['boys_toilet_center', 'ai_hod'],
+    ['boys_toilet_north', 'right_hall'],
+    ['boys_toilet_north', 'lecture_c'],
   ];
 
-  connections.forEach(([from, to, distance]) => graph.addEdge(from, to, distance));
+  // Compute distance from coordinates — consistent with A* heuristic
+  connections.forEach(([from, to]) => {
+    const a = locations.find(l => l.id === from);
+    const b = locations.find(l => l.id === to);
+    if (a && b) {
+      const dist = Math.round(Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2) * 100) / 100;
+      graph.addEdge(from, to, dist);
+    }
+  });
 
   indoorMap = graph;
   return graph;

@@ -1,0 +1,26 @@
+.about-card {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.about-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(226, 210, 200, 0.12) !important;
+  border-color: rgba(226, 210, 200, 0.3) !important;
+}
+
+/* Base state before animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Active state after scrolling into view */
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }

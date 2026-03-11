@@ -40,7 +40,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
                   <path d="m22 2-7 20-4-9-9-4Z" />
                   <path d="M22 2 11 13" />
                 </svg>
-                <span>SafeNav</span>
+                <span className="hero-purple-gradient-text">SafeNav</span>
               </h1>
 
               <p className="hero-subtitle" style={{ maxWidth: '600px', margin: '0 auto 2rem' }}>

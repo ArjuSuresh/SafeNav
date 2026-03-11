@@ -28,6 +28,28 @@
   animation: purpleGradientFlow 2s ease infinite;
 }
 
+.hero-purple-gradient-text {
+  color: #2A1128;
+  font-weight: 700;
+  background: linear-gradient(135deg,
+      #2A1128 0%,
+      #482A41 20%,
+      #E2D2C8 50%,
+      #482A41 80%,
+      #2A1128 100%);
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: #2A1128;
+  transition: all 0.3s ease;
+}
+
+.hero-purple-gradient-text:hover {
+  -webkit-text-fill-color: transparent;
+  animation: purpleGradientFlow 2s ease infinite;
+}
+
 /* ── Purple shimmer for badges and buttons ───────────────────────────── */
 .purple-shimmer {
   position: relative;

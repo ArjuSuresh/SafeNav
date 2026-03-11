@@ -239,7 +239,7 @@ button {
     left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 1.2rem 0;
+    padding: 0.8rem 0;
     background: #482A41;
     border-bottom: none;
     transition: all 0.3s ease;

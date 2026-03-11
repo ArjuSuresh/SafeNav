@@ -97,3 +97,26 @@
     left: 100%;
   }
 }
+
+/* ── Hero Logo Hover Animation ──────────────────────────────────────── */
+.hero-safenav-logo {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+  display: inline-flex;
+}
+
+.hero-safenav-logo:hover {
+  transform: scale(1.1) translateY(-10px);
+  text-shadow: 0 10px 30px rgba(142, 118, 146, 0.5);
+  color: #CEB2BD;
+}
+
+.hero-safenav-logo svg {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-safenav-logo:hover svg {
+  transform: rotate(-15deg) scale(1.2);
+  filter: drop-shadow(0 8px 15px rgba(142, 118, 146, 0.6));
+  color: #CEB2BD !important;
+}

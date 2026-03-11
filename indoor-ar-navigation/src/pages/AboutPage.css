@@ -26,7 +26,7 @@
 .delay-4 { transition-delay: 0.4s; }
 
 .about-purple-gradient-text {
-  background: linear-gradient(135deg, #482A41 0%, #CEB2BD 50%, #482A41 100%);
+  background: linear-gradient(135deg, #1A0A18 0%, #8A6D7C 50%, #1A0A18 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

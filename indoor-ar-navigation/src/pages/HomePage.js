@@ -35,8 +35,8 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
                 <span>Next Gen Indoor Safety</span>
               </div>
 
-              <h1 className="hero-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', fontSize: '3.5rem', marginTop: '0.5rem', marginBottom: '1.5rem' }}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#E2D2C8' }}>
+              <h1 className="hero-title hero-safenav-logo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', fontSize: '3.5rem', marginTop: '0.5rem', marginBottom: '1.5rem', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#E2D2C8', transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
                   <path d="m22 2-7 20-4-9-9-4Z" />
                   <path d="M22 2 11 13" />
                 </svg>

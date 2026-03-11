@@ -67,7 +67,7 @@ function GuidePage({ onBack }) {
 
     return (
         <div className="guide-page-container" style={{ position: 'relative' }}>
-            <NavigationBackground />
+            <NavigationBackground variant="guide" />
 
             {/* Header */}
             <div className="guide-header" style={{ position: 'relative', zIndex: 1 }}>

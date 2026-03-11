@@ -7,7 +7,7 @@ import React, { useRef, useEffect } from 'react';
  * that travels between them, matching the purple (#8E7692) color palette.
  * Low opacity so it doesn't interfere with foreground content.
  */
-function NavigationBackground() {
+function NavigationBackground({ variant = 'home' }) {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -87,6 +87,57 @@ function NavigationBackground() {
                 offset: 0.15,
             },
         ];
+
+        // If on the guide page, significantly shift the positions so it doesn't match the home page
+        let activeRoutes = routes;
+        if (variant === 'guide') {
+            activeRoutes = [
+                {
+                    label: ['Stairs', 'Room 302'],
+                    points: [
+                        { x: 0.15, y: 0.85 },
+                        { x: 0.25, y: 0.70 },
+                        { x: 0.35, y: 0.65 },
+                        { x: 0.50, y: 0.75 },
+                    ],
+                    speed: 0.003,
+                    offset: 0.2,
+                },
+                {
+                    label: ['Admin', 'Cafeteria'],
+                    points: [
+                        { x: 0.85, y: 0.15 },
+                        { x: 0.70, y: 0.25 },
+                        { x: 0.55, y: 0.30 },
+                        { x: 0.40, y: 0.20 },
+                    ],
+                    speed: 0.0025,
+                    offset: 0.6,
+                },
+                {
+                    label: ['Exit A', 'Lobby'],
+                    points: [
+                        { x: 0.80, y: 0.80 },
+                        { x: 0.60, y: 0.75 },
+                        { x: 0.45, y: 0.85 },
+                        { x: 0.35, y: 0.95 },
+                    ],
+                    speed: 0.0035,
+                    offset: 0.4,
+                },
+                {
+                    label: ['Hall B', 'Lab 2'],
+                    points: [
+                        { x: 0.20, y: 0.30 },
+                        { x: 0.30, y: 0.45 },
+                        { x: 0.45, y: 0.40 },
+                        { x: 0.60, y: 0.55 },
+                    ],
+                    speed: 0.002,
+                    offset: 0.8,
+                },
+            ];
+        }
 
         // ── Helper: get point along a route at progress [0..1] ──────────
         function getPointOnRoute(route, progress, W, H) {
@@ -202,7 +253,7 @@ function NavigationBackground() {
             const H = canvas.height;
             ctx.clearRect(0, 0, W, H);
 
-            for (const route of routes) {
+            for (const route of activeRoutes) {
                 const pts = route.points;
 
                 // Draw dashed path line
@@ -289,7 +340,7 @@ function NavigationBackground() {
             clearInterval(resizeInterval);
             window.removeEventListener('resize', resize);
         };
-    }, []);
+    }, [variant]);
 
     return (
         <canvas

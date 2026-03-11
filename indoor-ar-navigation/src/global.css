@@ -265,22 +265,24 @@ button {
     flex-shrink: 0;
     flex: 1;
     /* Prevents squishing */
-    transition: all 0.3s var(--ease-out);
+    transition: all 0.5s var(--ease-out);
     cursor: pointer;
 }
 
 .nav-logo:hover {
     color: #CEB2BD;
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-3px);
+    text-shadow: 0 4px 15px rgba(142, 118, 146, 0.5);
 }
 
 .nav-logo:hover .nav-icon {
-    transform: rotate(-12deg) scale(1.1);
+    transform: rotate(-15deg) scale(1.2);
+    filter: drop-shadow(0 4px 8px rgba(142, 118, 146, 0.6));
 }
 
 .nav-icon {
     color: var(--text-main);
-    transition: transform 0.3s var(--ease-out);
+    transition: all 0.5s var(--ease-out);
 }
 
 .nav-links {

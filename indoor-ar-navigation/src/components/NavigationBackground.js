@@ -148,6 +148,64 @@ function NavigationBackground({ variant = 'home' }) {
                     offset: 0.1,
                 },
             ];
+        } else if (variant === 'about') {
+            activeRoutes = [
+                {
+                    label: ['Main Gate', 'Security'],
+                    points: [
+                        { x: 0.85, y: 0.70 },
+                        { x: 0.90, y: 0.60 },
+                        { x: 0.95, y: 0.50 },
+                        { x: 0.88, y: 0.40 },
+                    ],
+                    speed: 0.002,
+                    offset: 0.3,
+                },
+                {
+                    label: ['Restroom', 'Lounge'],
+                    points: [
+                        { x: 0.15, y: 0.20 },
+                        { x: 0.25, y: 0.15 },
+                        { x: 0.35, y: 0.25 },
+                        { x: 0.45, y: 0.15 },
+                    ],
+                    speed: 0.0018,
+                    offset: 0.7,
+                },
+                {
+                    label: ['Emergency', 'Muster Point'],
+                    points: [
+                        { x: 0.10, y: 0.60 },
+                        { x: 0.05, y: 0.70 },
+                        { x: 0.15, y: 0.75 },
+                        { x: 0.25, y: 0.70 },
+                    ],
+                    speed: 0.0025,
+                    offset: 0.5,
+                },
+                {
+                    label: ['Elevator', 'Store'],
+                    points: [
+                        { x: 0.55, y: 0.90 },
+                        { x: 0.65, y: 0.95 },
+                        { x: 0.75, y: 0.85 },
+                        { x: 0.85, y: 0.95 },
+                    ],
+                    speed: 0.0015,
+                    offset: 0.9,
+                },
+                {
+                    label: ['IT Dept', 'Server Room'],
+                    points: [
+                        { x: 0.75, y: 0.15 },
+                        { x: 0.85, y: 0.10 },
+                        { x: 0.95, y: 0.20 },
+                        { x: 0.88, y: 0.30 },
+                    ],
+                    speed: 0.0028,
+                    offset: 0.2,
+                },
+            ];
         }
 
         // ── Helper: get point along a route at progress [0..1] ──────────

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Info, HelpCircle, Navigation, Users, Zap, AlertTriangle, CheckCircle, Shield } from 'lucide-react';
+import NavigationBackground from '../components/NavigationBackground';
 import './AboutPage.css';
 
 function AboutPage({ onBack }) {
@@ -29,8 +30,10 @@ function AboutPage({ onBack }) {
   }, []);
 
   return (
-    <div style={{ paddingBottom: '0', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div className="container" style={{ flex: 1, paddingTop: '100px', paddingBottom: '40px', maxWidth: '1000px', margin: '0 auto' }}>
+    <div style={{ paddingBottom: '0', display: 'flex', flexDirection: 'column', minHeight: '100vh', position: 'relative' }}>
+      <NavigationBackground variant="about" />
+      
+      <div className="container" style={{ flex: 1, paddingTop: '100px', paddingBottom: '40px', maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         
         <button 
           onClick={onBack} 

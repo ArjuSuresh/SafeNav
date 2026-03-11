@@ -86,12 +86,12 @@ function AboutPage({ onBack }) {
         <h2 className="reveal-on-scroll delay-1" style={{ textAlign: 'center', fontSize: '1.6rem', marginBottom: '2rem', fontWeight: '600' }}>What The System Offers</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '4rem' }}>
           <div className="about-card reveal-on-scroll delay-1" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
-             <Navigation size={24} color="var(--text-main)" style={{ marginBottom: '1rem' }} />
+             <Navigation size={24} color="#8B5CF6" style={{ marginBottom: '1rem' }} />
              <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>Precision AR</h4>
              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>Accurate overlay indicators keeping you seamlessly on track to your specific target.</p>
           </div>
           <div className="about-card reveal-on-scroll delay-2" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
-             <Users size={24} color="var(--text-main)" style={{ marginBottom: '1rem' }} />
+             <Users size={24} color="#06B6D4" style={{ marginBottom: '1rem' }} />
              <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>Crowd Intelligence</h4>
              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>Automatically mapping and circumventing crowded sections using API-level sensor fusion.</p>
           </div>
@@ -179,7 +179,7 @@ function AboutPage({ onBack }) {
       {/* Exact Home Page Style Footer */}
       <footer style={{ 
         backgroundColor: '#482A41', 
-        padding: '4rem 2rem 3rem 2rem', 
+        padding: '2rem 2rem 1rem 2rem', 
         borderTop: '1px solid rgba(255,255,255,0.05)',
         marginTop: 'auto',
         borderRadius: '24px 24px 0 0'

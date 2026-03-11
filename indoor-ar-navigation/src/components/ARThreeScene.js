@@ -46,6 +46,10 @@ let labelCanvas = null;
 let labelTexture = null;
 let labelSprite = null;
 
+// Main navigation directional arrow (Debug Task additions)
+let mainArrowGroup = null;
+let mainArrowMesh = null;
+
 // Smooth heading
 let _smoothedHeading = 0;
 const HEADING_ALPHA = 0.12;
@@ -165,9 +169,26 @@ export function initARThreeScene(container) {
         map: labelTexture, transparent: true, depthTest: false,
     }));
     labelSprite.scale.set(2.0, 0.5, 1);
-    labelSprite.position.set(0, 1.2, -2.5);
     labelSprite.renderOrder = 6;
     arGroup.add(labelSprite);
+
+    // ── Main Directional Navigation Arrow (Debug Tasks Fix) ───────────────
+    mainArrowGroup = new THREE.Group();
+    
+    // Use ConeGeometry for visible debugging and clear directionality
+    const coneGeo = new THREE.ConeGeometry(0.2, 0.6, 16);
+    coneGeo.rotateX(-Math.PI / 2); // align tip towards -Z
+
+    mainArrowMesh = new THREE.Mesh(
+        coneGeo,
+        new THREE.MeshBasicMaterial({ color: 0x3b82f6, depthTest: false, transparent: true, opacity: 0.95 })
+    );
+    mainArrowMesh.renderOrder = 20;
+
+    mainArrowGroup.add(mainArrowMesh);
+    arGroup.add(mainArrowGroup); // IMPORTANT: Add to arGroup so it rotates with compass
+
+    console.log("[AR Debug] Main directional arrow added to arGroup.");
 
     _initialized = true;
 
@@ -246,11 +267,60 @@ export function startARLoop(getHeading, getRoute, getDestination, isEmergencyFn)
             updateLabel(destination.name, _isEmergency);
             if (route?.waypoints?.length >= 2) {
                 const pts = waypointsToFloor(route.waypoints);
-                const next = pts[Math.min(1, pts.length - 1)];
+                // Find the first waypoint that is physically far enough ahead to point at
+                let targetIdx = 1;
+                let next = pts[Math.min(targetIdx, pts.length - 1)];
+                while (targetIdx < pts.length - 1 && new THREE.Vector3().subVectors(next, pts[0]).length() < 0.5) {
+                    targetIdx++;
+                    next = pts[targetIdx];
+                }
+                
                 const d = Math.min(Math.sqrt(next.x ** 2 + next.z ** 2), 3.5);
-                const dv = new THREE.Vector3(next.x, 0, next.z);
-                if (dv.length() > 0.001) dv.normalize(); else dv.set(0, 0, -1);
-                labelSprite.position.set(dv.x * d, 1.0 + Math.sin(t * 1.5) * 0.06, dv.z * d);
+                const dv_label = new THREE.Vector3(next.x, 0, next.z);
+                if (dv_label.length() > 0.001) dv_label.normalize(); else dv_label.set(0, 0, -1);
+                labelSprite.position.set(dv_label.x * d, 1.0 + Math.sin(t * 1.5) * 0.06, dv_label.z * d);
+                
+                // ── Main Arrow Logic (Debug Tasks - Navigation update) ────────
+                if (mainArrowGroup) {
+                    mainArrowGroup.visible = true;
+                    mainArrowMesh.material.color.setHex(col);
+                    
+                    // Calculate direction from user (0,0,0 in arGroup) to next waypoint
+                    const origin = pts[0];
+                    const dv = new THREE.Vector3().subVectors(next, origin);
+                    dv.y = 0;
+                    if (dv.length() > 0.001) {
+                        dv.normalize();
+                    } else {
+                        dv.set(0, 0, -1);
+                    }
+                    
+                    // Position arrow slightly in front of user (0.8 units) and above ground
+                    mainArrowGroup.position.set(
+                        origin.x + dv.x * 0.8,
+                        0.3, // Y = 0.3 above floor
+                        origin.z + dv.z * 0.8
+                    );
+                    
+                    // Align direction using angle calculation (since lookAt can behave weirdly in nested groups)
+                    // The arrow geometry points towards -Z, so we rotate Y axis to align -Z with dv
+                    mainArrowGroup.rotation.y = Math.atan2(dv.x, dv.z) + Math.PI;
+                    mainArrowGroup.rotation.x = 0; // Ensure it stays flat relative to floor
+                    mainArrowGroup.rotation.z = 0;
+                    
+                    // Normalize scale to make it clearly visible relative to path
+                    const s = 1.5 + Math.sin(t * 4) * 0.2;
+                    mainArrowGroup.scale.set(s, s, s);
+                    
+                    // Periodic log vector calculations
+                    if (Math.floor(t * 60) % 120 === 0) {
+                        console.log(`[AR Debug] Main Arrow Loop:`);
+                        console.log(`  Pos: x=${mainArrowGroup.position.x.toFixed(2)}, y=${mainArrowGroup.position.y.toFixed(2)}, z=${mainArrowGroup.position.z.toFixed(2)}`);
+                        console.log(`  Rot: y=${(mainArrowGroup.rotation.y * 180 / Math.PI).toFixed(1)}°`);
+                        console.log(`  Scale: ${s.toFixed(2)}`);
+                        console.log(`  Target: x=${next.x.toFixed(2)}, z=${next.z.toFixed(2)}`);
+                    }
+                }
             }
         }
 
@@ -381,6 +451,7 @@ function hideAll() {
     if (pathEdgeRight) pathEdgeRight.visible = false;
     chevronPool.forEach(c => { c.visible = false; });
     labelSprite.visible = false;
+    if (mainArrowGroup) mainArrowGroup.visible = false;
     _cachedRouteKey = '';
 }
 
@@ -409,6 +480,10 @@ export function destroyARThreeScene() {
     pathRibbon = pathEdgeLeft = pathEdgeRight = null;
     distanceRing = innerDot = null;
     labelSprite = null;
+    
+    if (mainArrowMesh) mainArrowMesh.geometry.dispose();
+    mainArrowGroup = mainArrowMesh = null;
+    
     chevronPool.length = 0;
     _smoothedHeading = 0;
     _cachedRouteKey = '';

@@ -77,8 +77,8 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
         </section>
       </div>
       <footer style={{ backgroundColor: '#482A41', padding: '2rem 2rem 1rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '4rem', borderRadius: '24px 24px 0 0' }}>
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
-
+        <div className="container" style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
+          
           <div style={{ maxWidth: '400px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#E2D2C8' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -87,7 +87,7 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
               </svg>
               <span>SafeNav</span>
             </div>
-            <p style={{ color: '#E2D2C8', fontSize: '1rem', lineHeight: '1.7', margin: 0 }}>
+            <p style={{ color: '#E2D2C8', fontSize: '1rem', lineHeight: '1.7', margin: 0, opacity: 0.9 }}>
               Next-generation indoor navigation<br />
               ensuring safety through real-time crowd<br />
               analytics and hazard detection.
@@ -96,13 +96,13 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
 
           <div style={{ minWidth: '200px' }}>
             <h4 style={{ color: '#E2D2C8', fontSize: '1.1rem', marginBottom: '1.5rem', fontWeight: 'bold' }}>Project</h4>
-            <p style={{ color: '#E2D2C8', fontSize: '0.95rem', marginBottom: '0.75rem', margin: '0 0 0.5rem 0' }}>Dept of AI (2023-2027)</p>
-            <p style={{ color: '#E2D2C8', fontSize: '0.95rem', margin: 0 }}>Spring 2026</p>
+            <p style={{ color: '#E2D2C8', fontSize: '0.95rem', margin: '0 0 0.5rem 0', opacity: 0.9 }}>Dept of AI (2023-2027)</p>
+            <p style={{ color: '#E2D2C8', fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>Spring 2026</p>
           </div>
 
         </div>
 
-        <div style={{ textAlign: 'center', color: '#E2D2C8', fontSize: '0.85rem' }}>
+        <div style={{ textAlign: 'center', color: '#E2D2C8', fontSize: '0.85rem', opacity: 0.8 }}>
           © 2026 Smart Indoor Safety Navigation System. Academic Prototype.
         </div>
       </footer>

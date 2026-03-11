@@ -95,10 +95,10 @@ function NavigationBackground({ variant = 'home' }) {
                 {
                     label: ['Stairs', 'Room 302'],
                     points: [
-                        { x: 0.10, y: 0.90 },
-                        { x: 0.20, y: 0.50 },
-                        { x: 0.40, y: 0.30 },
-                        { x: 0.60, y: 0.10 },
+                        { x: 0.10, y: 0.85 },
+                        { x: 0.15, y: 0.80 },
+                        { x: 0.20, y: 0.88 },
+                        { x: 0.28, y: 0.80 },
                     ],
                     speed: 0.002,
                     offset: 0.2,
@@ -106,10 +106,10 @@ function NavigationBackground({ variant = 'home' }) {
                 {
                     label: ['Admin', 'Cafeteria'],
                     points: [
-                        { x: 0.90, y: 0.20 },
-                        { x: 0.70, y: 0.50 },
-                        { x: 0.80, y: 0.80 },
-                        { x: 0.50, y: 0.90 },
+                        { x: 0.85, y: 0.25 },
+                        { x: 0.78, y: 0.35 },
+                        { x: 0.90, y: 0.40 },
+                        { x: 0.80, y: 0.50 },
                     ],
                     speed: 0.0018,
                     offset: 0.6,
@@ -117,10 +117,10 @@ function NavigationBackground({ variant = 'home' }) {
                 {
                     label: ['Exit A', 'Lobby'],
                     points: [
-                        { x: 0.10, y: 0.15 },
-                        { x: 0.30, y: 0.20 },
-                        { x: 0.20, y: 0.60 },
-                        { x: 0.40, y: 0.80 },
+                        { x: 0.10, y: 0.25 },
+                        { x: 0.18, y: 0.35 },
+                        { x: 0.12, y: 0.45 },
+                        { x: 0.25, y: 0.50 },
                     ],
                     speed: 0.0025,
                     offset: 0.4,
@@ -128,10 +128,10 @@ function NavigationBackground({ variant = 'home' }) {
                 {
                     label: ['Hall B', 'Lab 2'],
                     points: [
-                        { x: 0.85, y: 0.90 },
-                        { x: 0.60, y: 0.60 },
-                        { x: 0.40, y: 0.50 },
-                        { x: 0.10, y: 0.30 },
+                        { x: 0.85, y: 0.85 },
+                        { x: 0.75, y: 0.90 },
+                        { x: 0.65, y: 0.80 },
+                        { x: 0.60, y: 0.90 },
                     ],
                     speed: 0.0015,
                     offset: 0.8,
@@ -139,10 +139,10 @@ function NavigationBackground({ variant = 'home' }) {
                 {
                     label: ['Library', 'Archive'],
                     points: [
-                        { x: 0.90, y: 0.50 },
-                        { x: 0.80, y: 0.40 },
-                        { x: 0.65, y: 0.35 },
-                        { x: 0.50, y: 0.45 },
+                        { x: 0.40, y: 0.15 },
+                        { x: 0.50, y: 0.25 },
+                        { x: 0.60, y: 0.12 },
+                        { x: 0.65, y: 0.20 },
                     ],
                     speed: 0.0028,
                     offset: 0.1,

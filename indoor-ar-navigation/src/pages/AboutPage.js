@@ -6,8 +6,36 @@ function AboutPage({ onBack }) {
   const cardBg = 'rgba(72, 42, 65, 0.4)'; // translucent to blend with app background
   const cardBorder = '1px solid rgba(226, 210, 200, 0.1)';
   
+  const customStyles = `
+    .about-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .about-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(226, 210, 200, 0.12) !important;
+      border-color: rgba(226, 210, 200, 0.3) !important;
+    }
+    .fade-up {
+      animation: fadeUpAnim 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    @keyframes fadeUpAnim {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  `;
+
   return (
     <div style={{ paddingBottom: '0', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <style>{customStyles}</style>
+
       <div className="container" style={{ flex: 1, paddingTop: '100px', paddingBottom: '40px', maxWidth: '1000px', margin: '0 auto' }}>
         
         <button 
@@ -30,7 +58,7 @@ function AboutPage({ onBack }) {
           ← Back to Home
         </button>
 
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        <div className="fade-up" style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>
             About <span className="text-gradient">SafeNav</span>
           </h1>
@@ -41,14 +69,14 @@ function AboutPage({ onBack }) {
 
         {/* Top 2 Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1.5rem', marginBottom: '4rem' }}>
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
+          <div className="about-card fade-up delay-1" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
             <Info size={24} color="#3B82F6" style={{ marginBottom: '1.5rem' }} /> {/* Blue accent */}
             <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: '600' }}>About The Platform</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
               SafeNav is an intelligent indoor navigation website designed to prioritize user safety. It integrates crowd awareness and emergency guidance to ensure secure movement within complex buildings.
             </p>
           </div>
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
+          <div className="about-card fade-up delay-2" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
             <HelpCircle size={24} color="#10B981" style={{ marginBottom: '1.5rem' }} /> {/* Green accent */}
             <h3 style={{ fontSize: '1.3rem', marginBottom: '1rem', fontWeight: '600' }}>Why This System Exists</h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
@@ -58,24 +86,24 @@ function AboutPage({ onBack }) {
         </div>
 
         {/* What the system offers */}
-        <h2 style={{ textAlign: 'center', fontSize: '1.6rem', marginBottom: '2rem', fontWeight: '600' }}>What The System Offers</h2>
+        <h2 className="fade-up delay-1" style={{ textAlign: 'center', fontSize: '1.6rem', marginBottom: '2rem', fontWeight: '600' }}>What The System Offers</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '4rem' }}>
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
+          <div className="about-card fade-up delay-1" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
              <Navigation size={24} color="var(--text-main)" style={{ marginBottom: '1rem' }} />
              <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>Indoor Navigation</h4>
              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>Seamless guidance through complex corridors and rooms.</p>
           </div>
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
+          <div className="about-card fade-up delay-2" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
              <Users size={24} color="var(--text-main)" style={{ marginBottom: '1rem' }} />
              <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>Crowd Awareness</h4>
              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>Real-time density monitoring to avoid congestion.</p>
           </div>
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
+          <div className="about-card fade-up delay-3" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
              <Zap size={24} color="#F59E0B" style={{ marginBottom: '1rem' }} /> {/* Yellow accent */}
              <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>Smart Routing</h4>
              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>Intelligent path selection based on efficiency and safety.</p>
           </div>
-          <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
+          <div className="about-card fade-up delay-4" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '1.5rem', textAlign: 'center' }}>
              <AlertTriangle size={24} color="#EF4444" style={{ marginBottom: '1rem' }} /> {/* Red accent */}
              <h4 style={{ fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>Emergency Guide</h4>
              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0, lineHeight: '1.5' }}>Immediate evacuation routes during hazard alerts.</p>
@@ -84,7 +112,7 @@ function AboutPage({ onBack }) {
 
         {/* Bottom Split Section */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '1.5rem', marginBottom: '4rem' }}>
-           <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
+           <div className="about-card fade-up delay-1" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: '600' }}>How It Helps Users</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '1.25rem' }}>
@@ -102,7 +130,7 @@ function AboutPage({ onBack }) {
               </ul>
            </div>
            
-           <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
+           <div className="about-card fade-up delay-2" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem' }}>
               <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', fontWeight: '600' }}>Where It Can Be Used</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
                 {['Hospitals', 'Universities', 'Shopping Malls', 'Airports', 'Corporate Offices'].map(tag => (
@@ -112,8 +140,13 @@ function AboutPage({ onBack }) {
                     borderRadius: '20px',
                     padding: '8px 16px',
                     fontSize: '0.85rem',
-                    color: 'var(--text-main)'
-                  }}>
+                    color: 'var(--text-main)',
+                    transition: 'all 0.2s ease',
+                    cursor: 'default'
+                  }}
+                  onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+                  >
                     {tag}
                   </span>
                 ))}
@@ -122,7 +155,7 @@ function AboutPage({ onBack }) {
         </div>
 
         {/* Safety First Design */}
-        <div style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem', marginBottom: '4rem' }}>
+        <div className="about-card fade-up delay-3" style={{ background: cardBg, border: cardBorder, borderRadius: '16px', padding: '2rem', marginBottom: '4rem' }}>
            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem' }}>
              <Shield size={24} color="var(--text-main)" />
              <h3 style={{ fontSize: '1.3rem', fontWeight: '600', margin: 0 }}>Safety-First Design</h3>
@@ -133,7 +166,7 @@ function AboutPage({ onBack }) {
         </div>
 
         {/* Disclaimer */}
-        <div style={{ 
+        <div className="fade-up delay-4" style={{ 
           borderTop: '1px solid rgba(255,255,255,0.05)', 
           borderBottom: '1px solid rgba(255,255,255,0.05)',
           padding: '2.5rem 0',

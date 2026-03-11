@@ -76,8 +76,8 @@ function HomePage({ onScan, onMap, onNavigate, onAbout, onHome }) {
           </div>
         </section>
       </div>
-      <footer className="container" style={{ padding: '2rem 0 1rem 0', marginTop: '4rem', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#482A41', borderRadius: '24px 24px 0 0', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '2rem', paddingRight: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
+      <footer style={{ backgroundColor: '#482A41', padding: '2rem 2rem 1rem 2rem', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '4rem', borderRadius: '24px 24px 0 0' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '3rem', marginBottom: '4rem' }}>
 
           <div style={{ maxWidth: '400px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#E2D2C8' }}>

@@ -54,7 +54,7 @@ function AboutPage({ onBack }) {
 
         <div className="reveal-on-scroll" style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            About <span className="text-gradient">SafeNav</span>
+            About <span className="about-purple-gradient-text">SafeNav</span>
           </h1>
           <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto', lineHeight: '1.6' }}>
             Elevating indoor navigation through advanced crowd-density analytics, AR guidance, and dynamic emergency routing.
